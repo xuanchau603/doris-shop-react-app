@@ -1,0 +1,12 @@
+.wrapper {
+  max-width: 1220px;
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 200px;
+  .slick-item {
+    height: 200px;
+    border-radius: 16px;
+  }
+}
