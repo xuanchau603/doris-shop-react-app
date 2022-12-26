@@ -1,10 +1,27 @@
 import style from "./Slider.module.scss";
 import classNames from "classnames/bind";
 import Slider from "react-slick";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 const cx = classNames.bind(style);
 
 function Sliders() {
+  function SamplePrevArrow({ onClick }) {
+    return (
+      <div onClick={onClick} className={cx("prevArrow")}>
+        <LeftOutlined></LeftOutlined>
+      </div>
+    );
+  }
+
+  function SampleNextArrow({ onClick }) {
+    return (
+      <div onClick={onClick} className={cx("nextArrow")}>
+        <RightOutlined></RightOutlined>
+      </div>
+    );
+  }
+
   const settings = {
     dots: false,
     infinite: true,
@@ -13,6 +30,8 @@ function Sliders() {
     autoplay: true,
     autoplaySpeed: 3000,
     slidesToScroll: 2,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
   };
   return (
     <Slider className={cx("wrapper")} {...settings}>

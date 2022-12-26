@@ -6,6 +6,7 @@
     width: 100%;
     background: var(--primary-color);
     height: 120px;
+    z-index: 99;
     position: fixed;
     transition: all 0.2s;
     .header-top,
@@ -66,7 +67,7 @@
         height: 40px;
         font-weight: 400;
         background: rgb(53, 177, 53);
-        box-shadow: 0px 0px 12px 1px rgba(0, 0, 0, 0.3);
+        box-shadow: var(--shadow);
 
         .icon-cart {
           position: relative;

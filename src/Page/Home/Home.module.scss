@@ -1,13 +1,182 @@
 .wrapper {
-  height: 1000px;
   margin-top: 120px;
 
   .banner {
+    position: relative;
     height: 400px;
     .banner-img {
       width: 100%;
       height: 100%;
       object-fit: fill;
+    }
+    .slider-banner {
+      position: absolute;
+      bottom: -25%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+  .option-promo {
+    max-width: 1220px;
+    margin: 130px auto 30px auto;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .promo-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      border-radius: 16px;
+      width: 285px;
+      height: 100%;
+      background: url("https://cdn.tgdd.vn/mwgcart/mwg-site/ContentMwg/images/noel/bg-goi-y-hom-nay.png?v=1");
+      background-color: #fff;
+    }
+    .promo-item > a {
+      display: flex;
+      align-items: center;
+    }
+    .promo-item > a > span {
+      margin-left: 20px;
+      line-height: 28px;
+      color: var(--text-color);
+      font-size: 2.2rem;
+    }
+  }
+  .all-product {
+    max-width: 1220px;
+    margin: auto;
+    align-items: center;
+    > h1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      .heading {
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+      }
+      .sort {
+        height: fit-content;
+        > a {
+          font-size: 1.4rem;
+          color: var(--text-color);
+          padding: 10px 6px;
+          background: #fff;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          padding: 6px 6px;
+          box-shadow: var(--shadow);
+        }
+      }
+    }
+
+    .product-tag {
+      height: 410px;
+      background: #fff;
+      border-radius: 6px;
+      padding: 10px 10px 20px 10px;
+      cursor: pointer;
+      .item-label {
+        height: 24px;
+        > span {
+          font-size: 1.2rem;
+          background: rgb(230, 230, 230);
+          padding: 3px 4px;
+          box-shadow: var(--shadow);
+        }
+      }
+      > img {
+        width: 100%;
+        height: 220px;
+        object-fit: contain;
+        padding: 10px 0;
+        transition: all 0.3s ease-out;
+      }
+
+      .sale-status {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        .sale-label {
+          display: flex;
+          align-items: center;
+          border-radius: 20px;
+          width: 120px;
+          height: 20px;
+          background: linear-gradient(to right, #e91f63, #db2663);
+          > img {
+            width: 20%;
+            height: 100%;
+            margin-right: 4px;
+          }
+          > span {
+            color: #fff;
+            font-size: 1.2rem;
+          }
+        }
+        .status {
+          display: flex;
+          height: 20px;
+          align-items: center;
+          background: var(--primary-color);
+          border-radius: 4px;
+          padding: 0 12px;
+          font-weight: 600;
+          font-size: 1.4rem;
+          color: #fff;
+        }
+      }
+
+      .name {
+        font-size: 1.8rem;
+        font-weight: 600;
+      }
+
+      .price {
+        margin-top: 10px;
+        > strong {
+          color: var(--primary-color);
+          font-size: 2.2rem;
+          margin-right: 14px;
+          font-style: italic;
+        }
+        > small {
+          font-size: 1.6rem;
+          color: #00dbb3;
+          font-weight: 800;
+          padding: 0 4px;
+          background: #cefffae9;
+        }
+      }
+
+      .vote {
+        padding-top: 10px;
+        > b,
+        i {
+          color: #fb6e2e;
+          font-weight: 800;
+        }
+        > i {
+          margin-left: 4px;
+        }
+        > span {
+          margin-left: 14px;
+          color: #ccc;
+        }
+      }
+
+      &:hover > img {
+        transform: translateY(-8px);
+      }
+    }
+    .pagination {
+      padding-top: 50px;
+      width: fit-content;
+      margin: auto;
     }
   }
 }

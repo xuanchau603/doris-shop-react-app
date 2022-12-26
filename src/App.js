@@ -1,4 +1,4 @@
-import { publicRoutes } from "./Routes";
+import { privateRoutes, publicRoutes } from "./Routes";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DefaultLayout from "./Components/Layout/DefaultLayout";
 
@@ -22,6 +22,7 @@ function App() {
               ></Route>
             );
           })}
+          {privateRoutes}
         </Routes>
       </div>
     </Router>

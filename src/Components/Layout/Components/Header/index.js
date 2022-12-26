@@ -35,6 +35,10 @@ function Header() {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
@@ -99,13 +103,9 @@ function Header() {
               alignItems: "center",
             }}
           >
-            <Link title="Đăng nhập" to={"/detail"}>
-              Đăng nhập
-            </Link>
+            <Link to={"/login"}>Đăng nhập</Link>
             <div className={cx("border-col")}></div>
-            <Link title="Đăng ký" to={"/detail"}>
-              Đăng ký
-            </Link>
+            <Link to={"/register"}>Đăng ký</Link>
           </div>
         </div>
         <div className={cx("header-main")}>
