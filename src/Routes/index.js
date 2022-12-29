@@ -3,6 +3,9 @@ import Detail from "../Page/Detail";
 import Login from "../Components/Auth/Login";
 import Register from "../Components/Auth/Register";
 import AuthLayout from "../Components/Layout/AuthLayout";
+import AdminLayout from "../Components/Layout/AdminLayout";
+import AdminHome from "../Components/Admin/AdminHome";
+import AdminOrder from "../Components/Admin/AdminOrder";
 
 //public route
 const publicRoutes = [
@@ -26,6 +29,17 @@ const publicRoutes = [
   },
 ];
 
-const privateRoutes = [];
+const privateRoutes = [
+  {
+    path: "/admin",
+    component: AdminHome,
+    layout: AdminLayout,
+  },
+  {
+    path: "/admin/order",
+    component: AdminOrder,
+    layout: AdminLayout,
+  },
+];
 
 export { publicRoutes, privateRoutes };

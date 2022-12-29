@@ -6,24 +6,35 @@ import {
   SearchOutlined,
   Loading3QuartersOutlined,
   ShoppingCartOutlined,
+  UserAddOutlined,
+  SettingOutlined,
+  FontColorsOutlined,
+  CommentOutlined,
+  PoweroffOutlined,
+  SkinOutlined,
+  LockOutlined,
 } from "@ant-design/icons";
-import { Row, Col } from "antd";
+import { Row, Col, Avatar, Image } from "antd";
 import TippyHeadless from "@tippyjs/react/headless";
 import Popper from "../../../Popper";
+import { logo } from "../../../../Image";
 import Marquee from "react-fast-marquee";
 
 const cx = classNames.bind(style);
 
 function Header() {
   const [loading, setLoading] = useState(false);
+  const [userMenu, setUserMenu] = useState(false);
 
   const handleScroll = () => {
     if (window.scrollY > 50) {
       header.current.style.position = "fixed";
       header.current.style.top = "0";
+      header.current.style.boxShadow = "0 0.4rem 1.4rem #333";
     } else {
       header.current.style.position = "fixed";
       header.current.style.top = "30px";
+      header.current.style.boxShadow = "0 0 0 #000";
     }
   };
 
@@ -64,7 +75,9 @@ function Header() {
       </div>
       <div ref={header} className={cx("header")}>
         <div className={cx("header-top")}>
-          <Link className={cx("logo")} to={"/"}></Link>
+          <Link className={cx("logo")} to={"/"}>
+            <img alt="logo" src={logo}></img>
+          </Link>
           <div className={cx("search")}>
             <input
               className={cx("search-input")}
@@ -103,9 +116,60 @@ function Header() {
               alignItems: "center",
             }}
           >
-            <Link to={"/login"}>Đăng nhập</Link>
-            <div className={cx("border-col")}></div>
-            <Link to={"/register"}>Đăng ký</Link>
+            {/* <div className={cx("border-col")}></div> */}
+            {/* <Link to={"/login"} className={cx("login")}>
+              <UserAddOutlined></UserAddOutlined>
+              <Link to={"/login"}>Đăng nhập</Link>
+            </Link> */}
+            <TippyHeadless
+              render={(attrs) => (
+                <ul className={cx("user-menu")}>
+                  <Popper>
+                    <li className={cx("menu-item")}>
+                      <SettingOutlined /> Cài đặt tài khoản
+                    </li>
+                    <Link to={"/admin"} className={cx("menu-item")}>
+                      <LockOutlined /> Quản lý hệ thống
+                    </Link>
+                    <li className={cx("menu-item")}>
+                      <FontColorsOutlined /> Ngôn ngữ
+                    </li>
+                    <li className={cx("menu-item")}>
+                      <SkinOutlined /> Giao diện
+                    </li>
+                    <li className={cx("menu-item")}>
+                      <CommentOutlined /> Hướng dẫn
+                    </li>
+                    <li className={cx("menu-item")}>
+                      <PoweroffOutlined /> Đăng xuất
+                    </li>
+                  </Popper>
+                </ul>
+              )}
+              interactive
+              placement="bottom"
+              visible={userMenu}
+              onClickOutside={() => setUserMenu(false)}
+              offset={[30, 4]}
+            >
+              <div
+                onClick={() => setUserMenu(!userMenu)}
+                className={cx("user")}
+              >
+                <Avatar
+                  size={44}
+                  src={
+                    <Image
+                      preview={false}
+                      src="https://scontent.fdad3-6.fna.fbcdn.net/v/t39.30808-6/308991716_1225308318318724_7314307188888730009_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=B2dJEegMS0YAX-EQpIV&_nc_ht=scontent.fdad3-6.fna&oh=00_AfAydJpDw1JSVKp5D-K4i52O-XvP9Fk5G2lXs1lvD8qEqQ&oe=63AF3668"
+                      style={{
+                        width: 44,
+                      }}
+                    />
+                  }
+                />
+              </div>
+            </TippyHeadless>
           </div>
         </div>
         <div className={cx("header-main")}>

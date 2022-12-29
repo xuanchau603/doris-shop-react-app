@@ -36,6 +36,10 @@
       > label {
         font-size: 1.6rem;
         font-weight: 600;
+        > b {
+          color: rgb(251, 72, 72);
+          vertical-align: bottom;
+        }
       }
       > input {
         margin-top: 0.6rem;

@@ -1,0 +1,30 @@
+.header {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--primary-color);
+  font-size: 2rem;
+  font-weight: 500;
+  height: 8rem;
+  .logo {
+    height: 100%;
+    margin-left: 4rem;
+    > img {
+      height: 100%;
+      width: 16rem;
+    }
+  }
+  .user {
+    cursor: pointer;
+    margin-right: 4rem;
+  }
+}
+
+.container {
+  padding-top: 9rem;
+  padding-left: 30rem;
+  padding-right: 2rem;
+}

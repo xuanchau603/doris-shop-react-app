@@ -1,0 +1,20 @@
+.app-title {
+  background: #fff;
+  display: flex;
+  height: 4rem;
+  box-shadow: 0 0 6px #ccc;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  border-radius: 0.8rem;
+  margin-bottom: 2rem;
+
+  border-left: 0.8rem solid var(--primary-color);
+  .title {
+    font-weight: 600;
+  }
+  .clock {
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
+}

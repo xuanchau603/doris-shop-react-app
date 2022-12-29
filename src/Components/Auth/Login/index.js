@@ -64,7 +64,9 @@ function Login() {
           ></img>
         </div>
         <div className={cx("form-control")}>
-          <label>Email</label>
+          <label>
+            Email <b title="Đây là trường bắt buộc">*</b>
+          </label>
           <input
             value={email}
             type="email"
@@ -74,7 +76,9 @@ function Login() {
           ></input>
         </div>
         <div className={cx("form-control")}>
-          <label>Mật khẩu</label>
+          <label>
+            Mật khẩu <b title="Đây là trường bắt buộc">*</b>
+          </label>
           <input
             value={password}
             onChange={(e) => setPassword(e.target.value)}

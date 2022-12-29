@@ -1,0 +1,44 @@
+.tag {
+  box-shadow: 0 0 4px #ccc;
+  height: 14rem;
+  background: #fff;
+  border-radius: 16px;
+  display: flex;
+  padding: 1.6rem;
+  .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 18rem;
+    background: var(--success-color);
+    border-radius: 16px;
+    margin-right: 3rem;
+    box-shadow: 0 0 6px #ccc;
+
+    > span {
+      font-size: 6rem;
+    }
+  }
+  .content {
+    width: 100%;
+    .content-wrapper {
+      margin: 0;
+      .content-title {
+        color: #d20000;
+        font-weight: 700;
+        font-size: 2.2rem;
+      }
+      .content-count {
+        padding-top: 1rem;
+        font-weight: 700;
+        font-size: 1.8rem;
+      }
+    }
+    .content-des {
+      border-top: 1px dashed #ccc;
+      margin-top: 6rem;
+      padding-top: 0.6rem;
+    }
+  }
+}

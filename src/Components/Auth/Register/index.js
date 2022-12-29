@@ -11,7 +11,7 @@ const cx = classNames.bind(style);
 
 function Register() {
   const [showPass, setShowPass] = useState(false);
-  const [valueCaptcha, setValueCaptcha] = useState("");
+  const [valueCaptcha, setValueCaptcha] = useState("abcd");
   const ref_btnRegister = useRef();
   const refPass = useRef();
   const captChaRef = useRef();
@@ -46,33 +46,29 @@ function Register() {
         .oneOf([Yup.ref("password")], "Mật khẩu không trùng nhau!"),
       captcha: Yup.string().required("Vui lòng điền vào trường này!"),
     }),
-    onSubmit: (value) => {
-      console.log(value.captcha);
+    onSubmit: (value, { resetForm }) => {
+      if (value.captcha === valueCaptcha) {
+        console.log(value);
+      }
     },
   });
+  const getValueCaptCha = (value) => {
+    setValueCaptcha(value);
+  };
 
   useEffect(() => {
     if (
-      formik.values.fullName &&
-      formik.values.email &&
-      formik.values.password &&
-      formik.values.confirmPassword &&
-      formik.values.captcha
+      Object.keys(formik.errors).length === 0 &&
+      formik.values.captcha === valueCaptcha
     ) {
       ref_btnRegister.current.style.opacity = "1";
       ref_btnRegister.current.style.cursor = "pointer";
     } else {
       ref_btnRegister.current.style.opacity = "0.6";
       ref_btnRegister.current.style.cursor = "not-allowed";
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }
-  }, [
-    formik.values.fullName,
-    formik.values.email,
-    formik.values.password,
-    formik.values.confirmPassword,
-    formik.values.captcha,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formik.values.captcha, formik.errors]);
 
   const handleShowPass = () => {
     showPass ? setShowPass(false) : setShowPass(true);
@@ -80,12 +76,6 @@ function Register() {
       ? (refPass.current.type = "password")
       : (refPass.current.type = "text");
   };
-
-  const getValueCaptCha = (value) => {
-    setValueCaptcha(value);
-  };
-
-  // const handleRegister = () => {};
 
   return (
     <div className={cx("wrapper")}>
@@ -96,7 +86,9 @@ function Register() {
         </h1>
 
         <div className={cx("form-control")}>
-          <label>Tên của bạn?</label>
+          <label>
+            Tên của bạn? <b title="Đây là trường bắt buộc">*</b>
+          </label>
           <input
             name="fullName"
             type="text"
@@ -110,7 +102,9 @@ function Register() {
           )}
         </div>
         <div className={cx("form-control")}>
-          <label>Email</label>
+          <label>
+            Email <b title="Đây là trường bắt buộc">*</b>
+          </label>
           <input
             name="email"
             type="email"
@@ -124,7 +118,9 @@ function Register() {
           )}
         </div>
         <div className={cx("form-control")}>
-          <label>Mật khẩu</label>
+          <label>
+            Mật khẩu <b title="Đây là trường bắt buộc">*</b>
+          </label>
           <input
             ref={refPass}
             name="password"
@@ -153,7 +149,9 @@ function Register() {
           )}
         </div>
         <div className={cx("form-control")}>
-          <label>Nhập lại mật khẩu</label>
+          <label>
+            Nhập lại mật khẩu <b title="Đây là trường bắt buộc">*</b>
+          </label>
           <input
             // ref={refPass}
             name="confirmPassword"
@@ -185,7 +183,9 @@ function Register() {
         </div>
 
         <div className={cx("form-control")}>
-          <label>Mã xác nhận</label>
+          <label>
+            Mã xác nhận <b title="Đây là trường bắt buộc">*</b>
+          </label>
           <input
             name="captcha"
             ref={refInputCaptcha}

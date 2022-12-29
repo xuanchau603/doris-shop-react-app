@@ -20,14 +20,14 @@
       height: 60px;
 
       .logo {
-        display: block;
         height: 100%;
-        width: 182px;
-        background-image: url("../../../../Image/l-transformed.png");
-        background-repeat: no-repeat;
-        background-size: 100%;
+        width: 20rem;
         padding-right: 15px;
-        background-position-y: -6px;
+        > img {
+          width: 100%;
+          height: 100%;
+          object-fit: fill;
+        }
       }
       .search {
         position: relative;
@@ -87,22 +87,74 @@
           }
         }
       }
-      .action > a {
-        color: var(--text-color);
-        font-size: 1.8rem;
-        font-weight: 600;
-      }
-      .border-col {
-        width: 1px;
-        height: 40px;
-        background: #fff;
-        margin: 0 12px;
+      .action {
+        .login {
+          color: var(--text-color);
+          font-weight: 600;
+          cursor: pointer;
+          box-shadow: var(--shadow);
+          padding: 1rem;
+          border-radius: 0.8rem;
+          transition: 0.3s;
+          > span {
+            font-size: 2rem;
+          }
+          > a {
+            margin-left: 0.4rem;
+            color: var(--text-color);
+          }
+          &:hover {
+            background: rgb(53, 177, 53);
+          }
+        }
+        .border-col {
+          width: 2px;
+          height: 3.6rem;
+          background: #fff;
+          margin: 0 12px;
+        }
+        .user {
+          box-shadow: 0 0 1.4rem #000;
+          border-radius: 50%;
+          width: 44px;
+          height: 44px;
+          cursor: pointer;
+        }
+        .user-menu {
+          width: 200px;
+          animation: fade-out 0.2s linear;
+          .menu-item {
+            display: block;
+            cursor: pointer;
+            padding: 0.6rem 1.6rem;
+            font-weight: 600;
+            color: var(--text-color);
+
+            > span {
+              margin-right: 0.4rem;
+            }
+            &:hover {
+              background: rgb(238, 238, 238);
+            }
+            &:first-child {
+              margin-top: 1rem;
+            }
+            &:last-child {
+              margin-top: 4rem;
+              border-top: 1px solid #ccc;
+              color: red;
+              font-style: italic;
+              margin-bottom: 1rem;
+            }
+          }
+        }
       }
 
       //header-main
 
       .category {
         width: 1220px;
+        animation: fade-in 0.3s linear;
       }
       .col {
         .cate-item {
@@ -129,5 +181,27 @@
         color: rgb(112, 112, 112);
       }
     }
+  }
+}
+
+@keyframes fade-in {
+  from {
+    transform: translateY(20%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

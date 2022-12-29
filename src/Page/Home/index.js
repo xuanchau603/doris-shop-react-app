@@ -3,11 +3,31 @@ import classNames from "classnames/bind";
 import { banner } from "../../Image";
 import Sliders from "../../Components/Slider";
 import { Row, Col, Pagination } from "antd";
-import { StarOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, StarOutlined } from "@ant-design/icons";
 import DropdownList from "../../Components/DropDownList";
 // import UploadFile from "./test";
 
 const cx = classNames.bind(style);
+
+const items = [
+  {
+    label: <a href="/">Nổi bật</a>,
+    key: "0",
+  },
+  {
+    label: <a href="/">Giá cao đến thấp</a>,
+    key: "1",
+  },
+  // {
+  //   type: "divider",
+  // },
+  {
+    label: <a href="/">Giá thấp đến cao</a>,
+    key: "3",
+  },
+];
+
+const trigger = ["click"];
 
 function Home() {
   return (
@@ -70,7 +90,15 @@ function Home() {
             Danh sách sản phẩm
           </div>
           <div className={cx("sort")}>
-            <DropdownList></DropdownList>
+            <DropdownList
+              items={items}
+              trigger={trigger}
+              label={
+                <a href="/">
+                  Sắp xếp theo <CaretDownOutlined />
+                </a>
+              }
+            ></DropdownList>
           </div>
         </h1>
         <Row gutter={[16, 16]}>

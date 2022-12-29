@@ -1,0 +1,52 @@
+.wrapper {
+  .container {
+    background: #fff;
+    box-shadow: 0 0 6px #ccc;
+    border: 1px solid #ccc;
+    border-radius: 0.8rem;
+    padding: 2rem 1.6rem;
+    .action {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 2rem;
+      > button {
+        padding: 1rem;
+        border-radius: 0.6rem;
+        margin-right: 1.6rem;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+      }
+    }
+    .table-data {
+      padding: 1rem 0;
+      .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        .top-right {
+          position: relative;
+          border: 1px solid #ccc;
+          border-radius: 0.6rem;
+          padding: 1rem;
+
+          > span {
+            font-weight: 600;
+          }
+          > input {
+            background: rgb(244, 244, 244);
+            padding: 1rem;
+            border: 1px solid #ccc;
+            margin-left: 0.6rem;
+            border-radius: 0.6rem;
+          }
+          .spin {
+            position: absolute;
+            right: 2rem;
+            top: 1.6rem;
+          }
+        }
+      }
+    }
+  }
+}

@@ -22,7 +22,20 @@ function App() {
               ></Route>
             );
           })}
-          {privateRoutes}
+          {privateRoutes.map((route, index) => {
+            const Layout = route.layout || DefaultLayout;
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <Layout>
+                    <route.component></route.component>
+                  </Layout>
+                }
+              ></Route>
+            );
+          })}
         </Routes>
       </div>
     </Router>
