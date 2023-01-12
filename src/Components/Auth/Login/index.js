@@ -3,6 +3,8 @@ import classNames from "classnames/bind";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../../Redux/apiRequest";
+import { useDispatch } from "react-redux";
 
 const cx = classNames.bind(style);
 
@@ -13,12 +15,16 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
   const regexEmail =
     /^(([^<>()[\]\\.,;:\s@\\"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\]\\.,;:\s@\\"]+\.)+[^<>()[\]\\.,;:\s@\\"]{2,})$/i;
+
   const handleLogin = () => {
-    if (email.match(regexEmail) && password.length >= 6) {
-      console.log({ email, password });
-    }
+    const newUser = {
+      email,
+      password,
+    };
+    loginUser(newUser, dispatch, navigate);
   };
 
   useEffect(() => {
@@ -48,44 +54,44 @@ function Login() {
         </h1>
         <div className={cx("login-with")}>
           <img
-            title="Đăng nhập bằng facebook"
-            alt="facebook"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png"
+            title='Đăng nhập bằng facebook'
+            alt='facebook'
+            src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png'
           ></img>
           <img
-            title="Đăng nhập bằng google"
-            alt="google"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/768px-Google_%22G%22_Logo.svg.png"
+            title='Đăng nhập bằng google'
+            alt='google'
+            src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/768px-Google_%22G%22_Logo.svg.png'
           ></img>
           <img
-            title="Đăng nhập bằng zalo"
-            alt="zalo"
-            src="https://cdn.haitrieu.com/wp-content/uploads/2022/01/Logo-Zalo-Arc.png"
+            title='Đăng nhập bằng zalo'
+            alt='zalo'
+            src='https://cdn.haitrieu.com/wp-content/uploads/2022/01/Logo-Zalo-Arc.png'
           ></img>
         </div>
         <div className={cx("form-control")}>
           <label>
-            Email <b title="Đây là trường bắt buộc">*</b>
+            Email <b title='Đây là trường bắt buộc'>*</b>
           </label>
           <input
             value={email}
-            type="email"
+            type='email'
             onChange={(e) => setEmail(e.target.value)}
             required
-            placeholder="Email"
+            placeholder='Email'
           ></input>
         </div>
         <div className={cx("form-control")}>
           <label>
-            Mật khẩu <b title="Đây là trường bắt buộc">*</b>
+            Mật khẩu <b title='Đây là trường bắt buộc'>*</b>
           </label>
           <input
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             ref={refPass}
-            type="password"
+            type='password'
             required
-            placeholder="Mật khẩu"
+            placeholder='Mật khẩu'
           ></input>
           {showPass && (
             <EyeOutlined

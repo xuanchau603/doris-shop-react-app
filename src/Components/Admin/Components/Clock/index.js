@@ -26,10 +26,29 @@ function Clock() {
       day = "Thứ bảy";
     }
     let d = date.getDate();
-    let month = date.getMonth();
+    if (d < 10) {
+    }
+    const month = [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+    ];
+    let mon = month[date.getMonth()];
     let year = date.getFullYear();
 
-    let t = `${day}, ${d}/${month}/${year} - ${h} giờ ${m} phút ${s} giây`;
+    let t =
+      d < 10
+        ? `${day}, 0${d}/${mon}/${year} - ${h} giờ ${m} phút ${s} giây`
+        : `${day}, ${d}/${mon}/${year} - ${h} giờ ${m} phút ${s} giây`;
     setTime(t);
   };
 

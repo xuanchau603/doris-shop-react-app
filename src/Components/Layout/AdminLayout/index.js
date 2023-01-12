@@ -4,7 +4,7 @@ import SideBarAdmin from "../../SideBarAdmin";
 import { PoweroffOutlined, CaretDownOutlined } from "@ant-design/icons";
 import { logo } from "../../../Image/index";
 import DropDownList from "../../DropDownList";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(style);
 
@@ -12,7 +12,7 @@ function AdminLayout({ children }) {
   const itemsDropdown = [
     {
       label: (
-        <Link to="/" style={{ fontSize: 20 }}>
+        <Link to='/' style={{ fontSize: 20 }}>
           <PoweroffOutlined style={{ marginRight: 6 }}></PoweroffOutlined> Đăng
           xuất
         </Link>
@@ -22,18 +22,25 @@ function AdminLayout({ children }) {
     },
   ];
 
+  const navigate = useNavigate();
+
   return (
     <>
       <header className={cx("header")}>
-        <div className={cx("logo")}>
-          <img alt="logo" src={logo}></img>
+        <div
+          onClick={() => {
+            navigate("/");
+          }}
+          className={cx("logo")}
+        >
+          <img alt='logo' src={logo}></img>
         </div>
         <div className={cx("user")}>
           <DropDownList
             items={itemsDropdown}
             trigger={"hover"}
             label={
-              <Link to="/" style={{ color: "black" }}>
+              <Link to='/' style={{ color: "black" }}>
                 Xin chào, <b style={{ color: "green" }}>Lê Xuân Châu</b>{" "}
                 <CaretDownOutlined />
               </Link>

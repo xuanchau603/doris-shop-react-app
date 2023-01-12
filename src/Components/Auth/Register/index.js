@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Captcha from "../Captcha";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 const cx = classNames.bind(style);
 
@@ -46,9 +47,13 @@ function Register() {
         .oneOf([Yup.ref("password")], "Mật khẩu không trùng nhau!"),
       captcha: Yup.string().required("Vui lòng điền vào trường này!"),
     }),
-    onSubmit: (value, { resetForm }) => {
+    onSubmit: async (value, { resetForm }) => {
       if (value.captcha === valueCaptcha) {
-        console.log(value);
+        const res = await axios.post(
+          "http://localhost:3001/auth/register",
+          value
+        );
+        console.log(res.data);
       }
     },
   });
@@ -87,12 +92,12 @@ function Register() {
 
         <div className={cx("form-control")}>
           <label>
-            Tên của bạn? <b title="Đây là trường bắt buộc">*</b>
+            Tên của bạn? <b title='Đây là trường bắt buộc'>*</b>
           </label>
           <input
-            name="fullName"
-            type="text"
-            placeholder="Họ và tên của bạn"
+            name='fullName'
+            type='text'
+            placeholder='Họ và tên của bạn'
             value={formik.fullName}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
@@ -103,12 +108,12 @@ function Register() {
         </div>
         <div className={cx("form-control")}>
           <label>
-            Email <b title="Đây là trường bắt buộc">*</b>
+            Email <b title='Đây là trường bắt buộc'>*</b>
           </label>
           <input
-            name="email"
-            type="email"
-            placeholder="Email"
+            name='email'
+            type='email'
+            placeholder='Email'
             onBlur={formik.handleBlur}
             value={formik.email}
             onChange={formik.handleChange}
@@ -119,14 +124,14 @@ function Register() {
         </div>
         <div className={cx("form-control")}>
           <label>
-            Mật khẩu <b title="Đây là trường bắt buộc">*</b>
+            Mật khẩu <b title='Đây là trường bắt buộc'>*</b>
           </label>
           <input
             ref={refPass}
-            name="password"
-            type="password"
+            name='password'
+            type='password'
             required
-            placeholder="Mật khẩu"
+            placeholder='Mật khẩu'
             value={formik.password}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
@@ -150,14 +155,14 @@ function Register() {
         </div>
         <div className={cx("form-control")}>
           <label>
-            Nhập lại mật khẩu <b title="Đây là trường bắt buộc">*</b>
+            Nhập lại mật khẩu <b title='Đây là trường bắt buộc'>*</b>
           </label>
           <input
             // ref={refPass}
-            name="confirmPassword"
-            type="password"
+            name='confirmPassword'
+            type='password'
             required
-            placeholder="Nhập lại mật khẩu"
+            placeholder='Nhập lại mật khẩu'
             value={formik.confirmPassword}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
@@ -184,13 +189,13 @@ function Register() {
 
         <div className={cx("form-control")}>
           <label>
-            Mã xác nhận <b title="Đây là trường bắt buộc">*</b>
+            Mã xác nhận <b title='Đây là trường bắt buộc'>*</b>
           </label>
           <input
-            name="captcha"
+            name='captcha'
             ref={refInputCaptcha}
-            type="text"
-            placeholder="Nhập mã xác nhận"
+            type='text'
+            placeholder='Nhập mã xác nhận'
             value={formik.captcha}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
@@ -205,7 +210,7 @@ function Register() {
           ></Captcha>
         </div>
         <button
-          type="submit"
+          type='submit'
           ref={ref_btnRegister}
           onClick={formik.handleSubmit}
         >

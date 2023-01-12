@@ -1,4 +1,4 @@
-import Clock from "../../../Clock";
+import Clock from "../Clock";
 import style from "./Apptitle.module.scss";
 import classNames from "classnames/bind";
 

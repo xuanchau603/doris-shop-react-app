@@ -32,16 +32,16 @@ function SideBarAdmin() {
     {
       title: "Sản phẩm",
       icon: <SketchOutlined />,
-      path: "/admin",
+      path: "/admin/product",
+    },
+    {
+      title: "Danh mục",
+      icon: <ContainerOutlined />,
+      path: "/admin/category",
     },
     {
       title: "Tài khoản",
       icon: <UserOutlined />,
-      path: "/admin",
-    },
-    {
-      title: "Nhập kho",
-      icon: <ContainerOutlined />,
       path: "/admin",
     },
     {

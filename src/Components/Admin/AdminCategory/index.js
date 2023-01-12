@@ -1,4 +1,4 @@
-import style from "./AdminOrder.module.scss";
+import style from "./AdminCategory.module.scss";
 import classNames from "classnames/bind";
 import { PlusOutlined } from "@ant-design/icons";
 import {
@@ -14,10 +14,41 @@ import Selection from "../../Select";
 import { Spin, Table } from "antd";
 import Apptitle from "../Components/AppTitle";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Buffer } from "buffer";
+import axios from "axios";
 
 const cx = classNames.bind(style);
 
-function AdminOrder() {
+function AdminCategory() {
+  const [listCate, setListCate] = useState([]);
+
+  const handleDeleteCate = async (id) => {
+    try {
+      if (window.confirm("Bạn có chắn chắn muốn xóa danh mục này?") === true) {
+        const res = axios.delete(`http://localhost:3001/category/delete/${id}`);
+        if (res) {
+          alert("Delete successfully");
+          getAllCate();
+        }
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+  const getAllCate = async () => {
+    try {
+      const res = await axios.get("http://localhost:3001/category");
+      setListCate(res.data);
+    } catch (error) {
+      alert(error?.message);
+    }
+  };
+
+  useEffect(() => {
+    getAllCate();
+  }, []);
+
   const optionsSelect = [
     {
       value: "10",
@@ -38,83 +69,78 @@ function AdminOrder() {
   ];
   const columns = [
     {
-      title: "ID đơn hàng",
+      title: "Mã danh mục",
       dataIndex: "id",
     },
     {
-      title: "Khách hàng",
-      dataIndex: "customer",
+      title: "Tên danh mục",
+      dataIndex: "name",
     },
     {
-      title: "Đơn hàng",
-      dataIndex: "order",
-    },
-    {
-      title: "Số lượng",
-      dataIndex: "quantity",
-    },
-    {
-      title: "Tổng tiền",
-      dataIndex: "total",
-    },
-    {
-      title: "Tình trạng",
-      dataIndex: "status",
+      title: "Ảnh",
+      dataIndex: "image",
     },
     {
       title: "Tính năng",
       dataIndex: "action",
     },
   ];
-  const data = [
-    {
-      key: "1",
-      id: "1",
-      customer: "Lê xuân châu",
-      order: "Kem chống nắng Skin Aqua",
-      quantity: 2,
-      total: new Intl.NumberFormat("vi-VN", {
-        style: "currency",
-        currency: "VND",
-      }).format(4990000),
-      status: <span>Hoàn thành</span>,
+
+  const data = listCate.map((item, index) => {
+    return {
+      key: index,
+      id: item.cate_ID,
+      name: <b style={{ fontSize: "1.8rem" }}>{item.cate_Name}</b>,
+      image: (
+        <img
+          width='200px'
+          height='100px'
+          alt=''
+          src={Buffer.from(item.cate_Image || "", "base64").toString("ascii")}
+        ></img>
+      ),
       action: (
         <span>
-          <EditOutlined /> <DeleteOutlined />
+          <EditOutlined
+            onClick={() => {
+              navigate("/admin/category/edit", {
+                state: {
+                  id: item.cate_ID,
+                  name: item.cate_Name,
+                  image: item.cate_Image,
+                  description: item.cate_Description,
+                },
+              });
+            }}
+            className={cx("edits")}
+          />{" "}
+          <DeleteOutlined
+            onClick={() => {
+              handleDeleteCate(item.cate_ID);
+            }}
+            className={cx("edits")}
+          />
         </span>
       ),
-    },
-    {
-      key: "2",
-      id: "1",
-      customer: "gfdsg",
-      order: "Kem chống nắng Skin Aqua",
-      quantity: 2,
-      total: new Intl.NumberFormat("vi-VN", {
-        style: "currency",
-        currency: "VND",
-      }).format(4990000),
-      status: <span>Hoàn thành</span>,
-      action: (
-        <span>
-          <EditOutlined /> <DeleteOutlined />
-        </span>
-      ),
-    },
-  ];
+    };
+  });
+
   const navigate = useNavigate();
 
-  const handleCreateOrder = () => {
-    navigate("/admin/order/add");
+  const handleCreateCategory = () => {
+    navigate("/admin/category/add");
   };
 
   return (
     <div className={cx("wrapper")}>
-      <Apptitle title={"Danh sách đơn hàng"}></Apptitle>
+      <Apptitle title={"Danh sách danh mục"}></Apptitle>
       <div className={cx("container")}>
         <div className={cx("action")}>
-          <button onClick={handleCreateOrder} style={{ background: "#9df99d" }}>
-            <PlusOutlined /> Tạo mới đơn hàng
+          <button
+            onClick={handleCreateCategory}
+            style={{ background: "#9df99d" }}
+          >
+            <PlusOutlined /> Tạo mới danh mục
           </button>
           <button style={{ background: "#e1ec86" }}>
             <FileAddOutlined /> Tải từ file
@@ -172,4 +198,4 @@ function AdminOrder() {
   );
 }
 
-export default AdminOrder;
+export default AdminCategory;

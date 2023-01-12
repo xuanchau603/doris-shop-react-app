@@ -1,7 +1,8 @@
 import style from "./Header.module.scss";
 import classNames from "classnames/bind";
-import { Link } from "react-router-dom";
+import { json, Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { Buffer } from "buffer";
 import {
   SearchOutlined,
   Loading3QuartersOutlined,
@@ -19,12 +20,22 @@ import TippyHeadless from "@tippyjs/react/headless";
 import Popper from "../../../Popper";
 import { logo } from "../../../../Image";
 import Marquee from "react-fast-marquee";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../../../Redux/apiRequest";
 
 const cx = classNames.bind(style);
 
 function Header() {
   const [loading, setLoading] = useState(false);
   const [userMenu, setUserMenu] = useState(false);
+  const user = useSelector((state) => {
+    return state.auth.login.currentUser;
+  });
+  localStorage.setItem("user", JSON.stringify(user));
+
+  const image = Buffer.from(user?.data?.avatar || "", "base64").toString(
+    "ascii"
+  );
 
   const handleScroll = () => {
     if (window.scrollY > 50) {
@@ -41,6 +52,8 @@ function Header() {
   const handleChange = (e) => {
     setLoading(true);
   };
+
+  const dispatch = useDispatch();
 
   const header = useRef();
 
@@ -66,7 +79,7 @@ function Header() {
             fontSize: "2rem",
             fontWeight: "700",
           }}
-          direction="right"
+          direction='right'
           speed={120}
           pauseOnHover
         >
@@ -76,17 +89,17 @@ function Header() {
       <div ref={header} className={cx("header")}>
         <div className={cx("header-top")}>
           <Link className={cx("logo")} to={"/"}>
-            <img alt="logo" src={logo}></img>
+            <img alt='logo' src={logo}></img>
           </Link>
           <div className={cx("search")}>
             <input
               className={cx("search-input")}
-              type="text"
-              placeholder="Bạn tìm gì..."
+              type='text'
+              placeholder='Bạn tìm gì...'
               onChange={handleChange}
             ></input>
             <SearchOutlined
-              title="Tìm kiếm"
+              title='Tìm kiếm'
               size={"large"}
               className={cx("icon-search")}
               style={{ fontSize: "24px" }}
@@ -98,12 +111,12 @@ function Header() {
               ></Loading3QuartersOutlined>
             )}
           </div>
-          <div title="Tra cứu đơn hàng" className={cx("lookup")}>
+          <div title='Tra cứu đơn hàng' className={cx("lookup")}>
             Tra cứu đơn hàng
           </div>
-          <div title="Giỏ hàng" className={cx("cart")}>
+          <div title='Giỏ hàng' className={cx("cart")}>
             <ShoppingCartOutlined
-              count="0"
+              count='0'
               className={cx("icon-cart")}
             ></ShoppingCartOutlined>
             Giỏ hàng
@@ -117,59 +130,70 @@ function Header() {
             }}
           >
             {/* <div className={cx("border-col")}></div> */}
-            {/* <Link to={"/login"} className={cx("login")}>
-              <UserAddOutlined></UserAddOutlined>
-              <Link to={"/login"}>Đăng nhập</Link>
-            </Link> */}
-            <TippyHeadless
-              render={(attrs) => (
-                <ul className={cx("user-menu")}>
-                  <Popper>
-                    <li className={cx("menu-item")}>
-                      <SettingOutlined /> Cài đặt tài khoản
-                    </li>
-                    <Link to={"/admin"} className={cx("menu-item")}>
-                      <LockOutlined /> Quản lý hệ thống
-                    </Link>
-                    <li className={cx("menu-item")}>
-                      <FontColorsOutlined /> Ngôn ngữ
-                    </li>
-                    <li className={cx("menu-item")}>
-                      <SkinOutlined /> Giao diện
-                    </li>
-                    <li className={cx("menu-item")}>
-                      <CommentOutlined /> Hướng dẫn
-                    </li>
-                    <li className={cx("menu-item")}>
-                      <PoweroffOutlined /> Đăng xuất
-                    </li>
-                  </Popper>
-                </ul>
-              )}
-              interactive
-              placement="bottom"
-              visible={userMenu}
-              onClickOutside={() => setUserMenu(false)}
-              offset={[30, 4]}
-            >
-              <div
-                onClick={() => setUserMenu(!userMenu)}
-                className={cx("user")}
+            {!user && (
+              <Link to={"/login"} className={cx("login")}>
+                <UserAddOutlined></UserAddOutlined>
+                <strong>Đăng nhập</strong>
+              </Link>
+            )}
+            {user && (
+              <TippyHeadless
+                render={(attrs) => (
+                  <ul className={cx("user-menu")}>
+                    <Popper>
+                      <li className={cx("menu-item")}>
+                        <SettingOutlined /> Cài đặt tài khoản
+                      </li>
+                      {user?.data?.Role?.role_Name === "ADMIN" && (
+                        <Link to={"/admin"} className={cx("menu-item")}>
+                          <LockOutlined /> Quản lý hệ thống
+                        </Link>
+                      )}
+                      <li className={cx("menu-item")}>
+                        <FontColorsOutlined /> Ngôn ngữ
+                      </li>
+                      <li className={cx("menu-item")}>
+                        <SkinOutlined /> Giao diện
+                      </li>
+                      <li className={cx("menu-item")}>
+                        <CommentOutlined /> Hướng dẫn
+                      </li>
+                      <li
+                        onClick={() => {
+                          logoutUser(dispatch);
+                        }}
+                        className={cx("menu-item")}
+                      >
+                        <PoweroffOutlined /> Đăng xuất
+                      </li>
+                    </Popper>
+                  </ul>
+                )}
+                interactive
+                placement='bottom'
+                visible={userMenu}
+                onClickOutside={() => setUserMenu(false)}
+                offset={[30, 4]}
               >
-                <Avatar
-                  size={44}
-                  src={
-                    <Image
-                      preview={false}
-                      src="https://scontent.fdad3-6.fna.fbcdn.net/v/t39.30808-6/308991716_1225308318318724_7314307188888730009_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=B2dJEegMS0YAX-EQpIV&_nc_ht=scontent.fdad3-6.fna&oh=00_AfAydJpDw1JSVKp5D-K4i52O-XvP9Fk5G2lXs1lvD8qEqQ&oe=63AF3668"
-                      style={{
-                        width: 44,
-                      }}
-                    />
-                  }
-                />
-              </div>
-            </TippyHeadless>
+                <div
+                  onClick={() => setUserMenu(!userMenu)}
+                  className={cx("user")}
+                >
+                  <Avatar
+                    size={44}
+                    src={
+                      <Image
+                        preview={false}
+                        src={image}
+                        style={{
+                          width: 44,
+                        }}
+                      />
+                    }
+                  />
+                </div>
+              </TippyHeadless>
+            )}
           </div>
         </div>
         <div className={cx("header-main")}>
@@ -193,7 +217,7 @@ function Header() {
                 </div>
               )}
               interactive
-              placement="bottom-end"
+              placement='bottom-end'
             >
               <Link style={{ with: "100%" }}>Trang điểm</Link>
             </TippyHeadless>
@@ -218,7 +242,7 @@ function Header() {
                 </div>
               )}
               interactive
-              placement="bottom-end"
+              placement='bottom-end'
               offset={[-160, 10]}
             >
               <Link style={{ with: "100%" }}>Chăm sóc da mặt</Link>
@@ -244,7 +268,7 @@ function Header() {
                 </div>
               )}
               interactive
-              placement="bottom-end"
+              placement='bottom-end'
               offset={[740, 10]}
             >
               <Link style={{ with: "100%" }}>Chăm sóc tóc</Link>
@@ -270,10 +294,10 @@ function Header() {
                 </div>
               )}
               interactive
-              placement="bottom-end"
+              placement='bottom-end'
               offset={[530, 10]}
             >
-              <Link style={{ with: "100%" }}>Chăm sóc cá nhân</Link>
+              <Link style={{ with: "100%" }}>Phụ kiện</Link>
             </TippyHeadless>
           </div>
           <div className={cx("popper")}>
@@ -296,10 +320,10 @@ function Header() {
                 </div>
               )}
               interactive
-              placement="bottom-end"
+              placement='bottom-end'
               offset={[340, 10]}
             >
-              <Link style={{ with: "100%" }}>Dành cho Nam</Link>
+              <Link style={{ with: "100%" }}>Nước hoa</Link>
             </TippyHeadless>
           </div>
           <div className={cx("popper")}>
@@ -322,7 +346,7 @@ function Header() {
                 </div>
               )}
               interactive
-              placement="bottom-end"
+              placement='bottom-end'
               offset={[180, 10]}
             >
               <Link style={{ with: "100%" }}>Dành cho bé</Link>
@@ -348,10 +372,10 @@ function Header() {
                 </div>
               )}
               interactive
-              placement="right-end"
+              placement='right-end'
               offset={[24, -80]}
             >
-              <Link style={{ with: "100%" }}>Thực phẩm</Link>
+              <Link style={{ with: "100%" }}>Chăm sóc toàn thân</Link>
             </TippyHeadless>
           </div>
         </div>

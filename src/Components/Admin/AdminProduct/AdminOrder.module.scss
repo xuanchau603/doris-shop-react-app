@@ -59,6 +59,7 @@
 .form {
   margin-bottom: 3rem;
   .form-group {
+    position: relative;
     > label {
       display: block;
       padding-bottom: 1rem;
@@ -82,6 +83,15 @@
         background: #fff;
       }
     }
+    .preview {
+      position: absolute;
+      border-radius: 10px;
+      bottom: 1px;
+      right: 0;
+      width: 70%;
+      box-shadow: var(--shadow);
+      height: 60%;
+    }
   }
 }
 .actions {
@@ -102,5 +112,23 @@
       background-color: var(--error-color);
       color: red;
     }
+  }
+}
+
+.edits {
+  &:first-child {
+    padding: 1rem;
+    background-color: rgb(255, 255, 178);
+    border-radius: 1rem;
+    color: rgb(180, 180, 0);
+    margin-right: 2rem;
+    cursor: pointer;
+  }
+  &:nth-child(2) {
+    padding: 1rem;
+    background-color: var(--error-color);
+    border-radius: 1rem;
+    color: red;
+    cursor: pointer;
   }
 }

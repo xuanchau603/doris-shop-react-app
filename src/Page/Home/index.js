@@ -5,24 +5,25 @@ import Sliders from "../../Components/Slider";
 import { Row, Col, Pagination } from "antd";
 import { CaretDownOutlined, StarOutlined } from "@ant-design/icons";
 import DropdownList from "../../Components/DropDownList";
+import { Link } from "react-router-dom";
 // import UploadFile from "./test";
 
 const cx = classNames.bind(style);
 
 const items = [
   {
-    label: <a href="/">Nổi bật</a>,
+    label: <Link to={"/"}>Nổi bật</Link>,
     key: "0",
   },
   {
-    label: <a href="/">Giá cao đến thấp</a>,
+    label: <Link to={"/"}>Giá cao đến thấp</Link>,
     key: "1",
   },
   // {
   //   type: "divider",
   // },
   {
-    label: <a href="/">Giá thấp đến cao</a>,
+    label: <Link to={"/"}>Giá thấp đến cao</Link>,
     key: "3",
   },
 ];
@@ -33,59 +34,59 @@ function Home() {
   return (
     <div className={cx("wrapper")}>
       <div className={cx("banner")}>
-        <img src={banner} alt="banner" className={cx("banner-img")}></img>
+        <img src={banner} alt='banner' className={cx("banner-img")}></img>
         <div className={cx("slider-banner")}>
           <Sliders></Sliders>
         </div>
       </div>
       <ul className={cx("option-promo")}>
         <li className={cx("promo-item")}>
-          <a href="/">
+          <Link href='/'>
             <img
-              src="https://cdn.tgdd.vn//content/iv-100x100.png"
-              alt=""
+              src='https://cdn.tgdd.vn//content/iv-100x100.png'
+              alt=''
               style={{ width: "70px", height: "70px" }}
             ></img>
             <span>Săn Sale Online</span>
-          </a>
+          </Link>
         </li>
         <li className={cx("promo-item")}>
-          <a href="/">
+          <Link href='/'>
             <img
-              src="https://cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/homev2/goiy-1.png"
-              alt=""
+              src='https://cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/homev2/goiy-1.png'
+              alt=''
               style={{ width: "70px", height: "70px" }}
             ></img>
             <span>Dành cho bạn</span>
-          </a>
+          </Link>
         </li>
         <li className={cx("promo-item")}>
-          <a href="/">
+          <Link href='/'>
             <img
-              src="https://cdn.tgdd.vn//content/icon-dien-thoai-120x120.png"
-              alt=""
+              src='https://cdn.tgdd.vn//content/icon-dien-thoai-120x120.png'
+              alt=''
               style={{ width: "70px", height: "70px" }}
             ></img>
             <span>Độc quyền tại Doris</span>
-          </a>
+          </Link>
         </li>
         <li className={cx("promo-item")}>
-          <a href="/">
+          <Link href='/'>
             <img
-              src="https://cdn.tgdd.vn//content/icon-TGDD-OF-100x100.gif"
-              alt=""
+              src='https://cdn.tgdd.vn//content/icon-TGDD-OF-100x100.gif'
+              alt=''
               style={{ width: "70px", height: "70px" }}
             ></img>
             <span>Giảm đến 50%</span>
-          </a>
+          </Link>
         </li>
       </ul>
       <div className={cx("all-product")}>
         <h1>
           <div className={cx("heading")}>
             <img
-              src="https://cdn.tgdd.vn/mwgcart/mwg-site/ContentMwg/images/noel/icon-huu-desktop.png?v=1"
-              alt=""
+              src='https://cdn.tgdd.vn/mwgcart/mwg-site/ContentMwg/images/noel/icon-huu-desktop.png?v=1'
+              alt=''
             ></img>
             Danh sách sản phẩm
           </div>
@@ -94,9 +95,9 @@ function Home() {
               items={items}
               trigger={trigger}
               label={
-                <a href="/">
+                <Link href='/'>
                   Sắp xếp theo <CaretDownOutlined />
-                </a>
+                </Link>
               }
             ></DropdownList>
           </div>
@@ -108,14 +109,14 @@ function Home() {
                 <span>Trả góp 0%</span>
               </div>
               <img
-                src="https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg"
-                alt=""
+                src='https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg'
+                alt=''
               ></img>
               <div className={cx("sale-status")}>
                 <p className={cx("sale-label")}>
                   <img
-                    src="https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png"
-                    alt=""
+                    src='https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png'
+                    alt=''
                   ></img>
                   <span>Sale giáng sinh</span>
                 </p>
@@ -148,13 +149,13 @@ function Home() {
                 <span>Trả góp 0%</span>
               </div>
               <img
-                src="https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg"
-                alt=""
+                src='https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg'
+                alt=''
               ></img>
               <p className={cx("sale-label")}>
                 <img
-                  src="https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png"
-                  alt=""
+                  src='https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png'
+                  alt=''
                 ></img>
                 <span>Sale giáng sinh</span>
               </p>
@@ -185,13 +186,13 @@ function Home() {
                 <span>Trả góp 0%</span>
               </div>
               <img
-                src="https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg"
-                alt=""
+                src='https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg'
+                alt=''
               ></img>
               <p className={cx("sale-label")}>
                 <img
-                  src="https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png"
-                  alt=""
+                  src='https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png'
+                  alt=''
                 ></img>
                 <span>Sale giáng sinh</span>
               </p>
@@ -219,13 +220,13 @@ function Home() {
                 <span>Trả góp 0%</span>
               </div>
               <img
-                src="https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg"
-                alt=""
+                src='https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg'
+                alt=''
               ></img>
               <p className={cx("sale-label")}>
                 <img
-                  src="https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png"
-                  alt=""
+                  src='https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png'
+                  alt=''
                 ></img>
                 <span>Sale giáng sinh</span>
               </p>
@@ -253,13 +254,13 @@ function Home() {
                 <span>Trả góp 0%</span>
               </div>
               <img
-                src="https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg"
-                alt=""
+                src='https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg'
+                alt=''
               ></img>
               <p className={cx("sale-label")}>
                 <img
-                  src="https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png"
-                  alt=""
+                  src='https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png'
+                  alt=''
                 ></img>
                 <span>Sale giáng sinh</span>
               </p>
@@ -287,13 +288,13 @@ function Home() {
                 <span>Trả góp 0%</span>
               </div>
               <img
-                src="https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg"
-                alt=""
+                src='https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg'
+                alt=''
               ></img>
               <p className={cx("sale-label")}>
                 <img
-                  src="https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png"
-                  alt=""
+                  src='https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png'
+                  alt=''
                 ></img>
                 <span>Sale giáng sinh</span>
               </p>
@@ -321,13 +322,13 @@ function Home() {
                 <span>Trả góp 0%</span>
               </div>
               <img
-                src="https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg"
-                alt=""
+                src='https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg'
+                alt=''
               ></img>
               <p className={cx("sale-label")}>
                 <img
-                  src="https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png"
-                  alt=""
+                  src='https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png'
+                  alt=''
                 ></img>
                 <span>Sale giáng sinh</span>
               </p>
@@ -355,13 +356,13 @@ function Home() {
                 <span>Trả góp 0%</span>
               </div>
               <img
-                src="https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg"
-                alt=""
+                src='https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg'
+                alt=''
               ></img>
               <p className={cx("sale-label")}>
                 <img
-                  src="https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png"
-                  alt=""
+                  src='https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png'
+                  alt=''
                 ></img>
                 <span>Sale giáng sinh</span>
               </p>
@@ -389,13 +390,13 @@ function Home() {
                 <span>Trả góp 0%</span>
               </div>
               <img
-                src="https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg"
-                alt=""
+                src='https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg'
+                alt=''
               ></img>
               <p className={cx("sale-label")}>
                 <img
-                  src="https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png"
-                  alt=""
+                  src='https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png'
+                  alt=''
                 ></img>
                 <span>Sale giáng sinh</span>
               </p>
@@ -423,13 +424,13 @@ function Home() {
                 <span>Trả góp 0%</span>
               </div>
               <img
-                src="https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg"
-                alt=""
+                src='https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg'
+                alt=''
               ></img>
               <p className={cx("sale-label")}>
                 <img
-                  src="https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png"
-                  alt=""
+                  src='https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png'
+                  alt=''
                 ></img>
                 <span>Sale giáng sinh</span>
               </p>
@@ -457,13 +458,13 @@ function Home() {
                 <span>Trả góp 0%</span>
               </div>
               <img
-                src="https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg"
-                alt=""
+                src='https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg'
+                alt=''
               ></img>
               <p className={cx("sale-label")}>
                 <img
-                  src="https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png"
-                  alt=""
+                  src='https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png'
+                  alt=''
                 ></img>
                 <span>Sale giáng sinh</span>
               </p>
@@ -491,13 +492,13 @@ function Home() {
                 <span>Trả góp 0%</span>
               </div>
               <img
-                src="https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg"
-                alt=""
+                src='https://cdn.tgdd.vn/Products/Images/42/289700/TimerThumb/iphone-14-pro-max-256gb-(2).jpg'
+                alt=''
               ></img>
               <p className={cx("sale-label")}>
                 <img
-                  src="https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png"
-                  alt=""
+                  src='https://cdn.tgdd.vn/2022/12/content/label-giang-sinh-47x47.png'
+                  alt=''
                 ></img>
                 <span>Sale giáng sinh</span>
               </p>

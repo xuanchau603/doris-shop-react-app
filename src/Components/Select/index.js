@@ -5,9 +5,7 @@ const Selection = ({ options, onChange }) => (
   <Select
     labelInValue
     defaultValue={options[0]}
-    style={{
-      width: 120,
-    }}
+    style={{ width: "100%" }}
     onChange={onChange}
     options={options}
   />
