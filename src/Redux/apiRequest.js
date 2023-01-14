@@ -21,4 +21,13 @@ const logoutUser = async (dispatch) => {
   dispatch(logoutSuccess());
 };
 
-export { loginUser, logoutUser };
+const getAllproduct = async () => {
+  try {
+    const res = await axios.get("http://localhost:3001/product");
+    return res.data;
+  } catch (error) {
+    alert(error);
+  }
+};
+
+export { loginUser, logoutUser, getAllproduct };

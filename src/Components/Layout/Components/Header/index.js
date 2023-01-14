@@ -22,10 +22,15 @@ import { logo } from "../../../../Image";
 import Marquee from "react-fast-marquee";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../../../Redux/apiRequest";
+import { useDebounce } from "../../../Hooks";
+import axios from "axios";
 
 const cx = classNames.bind(style);
 
 function Header() {
+  const [searchValue, setSearchValue] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  const [showsr, setShowsr] = useState(false);
   const [loading, setLoading] = useState(false);
   const [userMenu, setUserMenu] = useState(false);
   const user = useSelector((state) => {
@@ -49,13 +54,11 @@ function Header() {
     }
   };
 
-  const handleChange = (e) => {
-    setLoading(true);
-  };
-
   const dispatch = useDispatch();
 
   const header = useRef();
+
+  const debounce = useDebounce(searchValue, 800);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -65,14 +68,24 @@ function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    if (debounce === "") {
+      setSearchResult([]);
+      return;
+    }
+    setLoading(true);
+    const res = axios.get(
+      `http://localhost:3001/product/?name=${encodeURIComponent(debounce)}`
+    );
+    res.then((res) => {
+      setSearchResult(res.data);
+      setLoading(false);
+    });
+  }, [debounce]);
+
   return (
     <div className={cx("wrapper")}>
       <div className={cx("top-banner")}>
-        {/* <img
-          alt="top-banner"
-          src="https://cdn.tgdd.vn/2022/12/banner/1200x44-a-1200x44.webp"
-          style={{ height: "100%", width: "100%", objectFit: "cover" }}
-        ></img> */}
         <Marquee
           style={{
             height: "100%",
@@ -91,25 +104,96 @@ function Header() {
           <Link className={cx("logo")} to={"/"}>
             <img alt='logo' src={logo}></img>
           </Link>
-          <div className={cx("search")}>
-            <input
-              className={cx("search-input")}
-              type='text'
-              placeholder='Bạn tìm gì...'
-              onChange={handleChange}
-            ></input>
-            <SearchOutlined
-              title='Tìm kiếm'
-              size={"large"}
-              className={cx("icon-search")}
-              style={{ fontSize: "24px" }}
-            ></SearchOutlined>
-            {loading && (
-              <Loading3QuartersOutlined
-                className={cx("icon-loading")}
-                spin
-              ></Loading3QuartersOutlined>
-            )}
+          <div>
+            <TippyHeadless
+              onClickOutside={(e) => {
+                setShowsr(false);
+              }}
+              visible={searchResult.length > 0 && showsr}
+              interactive
+              offset={[40, 6]}
+              placement='bottom'
+              render={(attr) => {
+                return (
+                  <div className={cx("search-result")}>
+                    <Popper>
+                      <p className={cx("search-title")}>Kết quả tìm kiếm...</p>
+                      {searchResult.map((item) => (
+                        <div
+                          key={item.product_ID}
+                          className={cx("search-result-item")}
+                        >
+                          <img
+                            alt=''
+                            src={Buffer.from(
+                              item.product_Image || "",
+                              "base64"
+                            ).toString("ascii")}
+                          ></img>
+                          <div className={cx("content")}>
+                            <span className={cx("name")}>
+                              {item.product_Name}
+                            </span>
+                            <div className={cx("price")}>
+                              <strong>
+                                {new Intl.NumberFormat("vi-VN", {
+                                  style: "currency",
+                                  currency: "VND",
+                                }).format(
+                                  item.promotion_ID
+                                    ? item.product_Price -
+                                        (item.promotion.discount *
+                                          item.product_Price) /
+                                          100
+                                    : item.product_Price
+                                )}
+                              </strong>
+                              {item.promotion_ID ? (
+                                <b>
+                                  {new Intl.NumberFormat("vi-VN", {
+                                    style: "currency",
+                                    currency: "VND",
+                                  }).format(item.product_Price)}
+                                </b>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </Popper>
+                  </div>
+                );
+              }}
+            >
+              <div className={cx("search")}>
+                <input
+                  className={cx("search-input")}
+                  type='text'
+                  placeholder='Bạn tìm gì...'
+                  onFocus={() => setShowsr(true)}
+                  onChange={(e) => {
+                    if (e.target.value === " ") return;
+                    setSearchValue(e.target.value);
+                  }}
+                ></input>
+                {!loading && (
+                  <SearchOutlined
+                    title='Tìm kiếm'
+                    size={"large"}
+                    className={cx("icon-search")}
+                    style={{ fontSize: "24px" }}
+                  ></SearchOutlined>
+                )}
+                {loading && (
+                  <Loading3QuartersOutlined
+                    className={cx("icon-loading")}
+                    spin
+                  ></Loading3QuartersOutlined>
+                )}
+              </div>
+            </TippyHeadless>
           </div>
           <div title='Tra cứu đơn hàng' className={cx("lookup")}>
             Tra cứu đơn hàng

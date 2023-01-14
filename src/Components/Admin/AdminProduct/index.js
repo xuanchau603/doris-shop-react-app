@@ -12,7 +12,7 @@ import {
   EditOutlined,
 } from "@ant-design/icons/lib/icons";
 import Selection from "../../Select";
-import { Spin, Table } from "antd";
+import { Skeleton, Spin, Table } from "antd";
 import Apptitle from "../Components/AppTitle";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -236,19 +236,23 @@ function AdminProduct() {
             </div>
           </div>
           <div className={cx("middle")}>
-            <Table
-              bordered
-              pagination={{
-                position: ["bottomRight"],
-                pageSize: 5,
-                showTotal: (total) => `Số lượng ${total}`,
-              }}
-              rowSelection={{
-                type: "checkbox",
-              }}
-              columns={columns}
-              dataSource={data}
-            ></Table>
+            {listProduct.length > 0 ? (
+              <Table
+                bordered
+                pagination={{
+                  position: ["bottomRight"],
+                  pageSize: 5,
+                  showTotal: (total) => `Số lượng ${total}`,
+                }}
+                rowSelection={{
+                  type: "checkbox",
+                }}
+                columns={columns}
+                dataSource={data}
+              ></Table>
+            ) : (
+              <Skeleton active></Skeleton>
+            )}
           </div>
         </div>
       </div>

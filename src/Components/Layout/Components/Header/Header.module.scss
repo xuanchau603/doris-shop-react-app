@@ -29,6 +29,48 @@
           object-fit: fill;
         }
       }
+      .search-result {
+        width: 40rem;
+        .search-title {
+          padding: 1rem 1rem;
+          font-weight: 700;
+          margin: 0;
+        }
+        .search-result-item {
+          padding: 0.6rem 1rem;
+          display: flex;
+          height: 5rem;
+          > img {
+            display: block;
+            max-width: 6rem;
+            border-radius: 50%;
+            margin-right: 1rem;
+          }
+          .content {
+            .name {
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 1;
+              overflow: hidden;
+              margin-bottom: 0.8rem;
+            }
+            .price {
+              color: var(--primary-color);
+              font-style: italic;
+              > b {
+                padding-left: 1rem;
+                text-decoration: line-through;
+                color: #ccc;
+                font-size: 1.4rem;
+              }
+            }
+          }
+          &:hover {
+            cursor: pointer;
+            background: rgb(237, 237, 237);
+          }
+        }
+      }
       .search {
         position: relative;
         width: 280px;
