@@ -2,7 +2,7 @@ import style from "./Home.module.scss";
 import classNames from "classnames/bind";
 import { banner } from "../../Image";
 import Sliders from "../../Components/Slider";
-import { Row, Col, Pagination, Skeleton } from "antd";
+import { Row, Col, Pagination, Skeleton, message, Spin } from "antd";
 import { Buffer } from "buffer";
 import {
   CaretDownOutlined,
@@ -11,8 +11,15 @@ import {
 } from "@ant-design/icons";
 import DropdownList from "../../Components/DropDownList";
 import { getAllproduct } from "../../Redux/apiRequest";
+import {
+  addQuantity,
+  addToCart,
+  initCart,
+  updateCart,
+} from "../../Redux/cartSlice";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 // import UploadFile from "./test";
 
 const cx = classNames.bind(style);
@@ -46,6 +53,11 @@ function Home() {
     minIndex: 0,
     maxIndex: pageSize,
   });
+  const cart = useSelector((state) => {
+    return state.cart.cart;
+  });
+
+  const dispatch = useDispatch();
 
   const handleChangePagin = (page) => {
     setPagination({
@@ -215,7 +227,65 @@ function Home() {
                           <span>(16)</span>
                         </div>
                         {item.product_Quantity > 0 ? (
-                          <button title='Thêm vào giỏ hàng'>
+                          <button
+                            onClick={async () => {
+                              const base64 = await fetch(
+                                Buffer.from(
+                                  item.product_Image || "",
+                                  "base64"
+                                ).toString("ascii")
+                              );
+                              const blob = await base64.blob();
+                              const file = new File([blob], "name", {
+                                type: "image/png",
+                              });
+                              const linkImage = URL.createObjectURL(file);
+                              if (cart) {
+                                const index = cart.findIndex(
+                                  (product) =>
+                                    product.productName === item.product_Name
+                                );
+                                if (index === -1) {
+                                  <Spin spinning tip='Đang xử lý'></Spin>;
+
+                                  dispatch(
+                                    addToCart({
+                                      productName: item.product_Name,
+                                      productImage: linkImage,
+                                      quantity: 1,
+                                      productPrice: item.promotion_ID
+                                        ? item.product_Price -
+                                          (item.promotion.discount *
+                                            item.product_Price) /
+                                            100
+                                        : item.product_Price,
+                                    })
+                                  );
+                                  <Spin
+                                    spinning={false}
+                                    tip='Đang xử lý'
+                                  ></Spin>;
+                                } else {
+                                  dispatch(addQuantity(index));
+                                }
+                              } else {
+                                initCart([
+                                  {
+                                    productName: item.product_Name,
+                                    productImage: linkImage,
+                                    quantity: 1,
+                                    productPrice: item.promotion_ID
+                                      ? item.product_Price -
+                                        (item.promotion.discount *
+                                          item.product_Price) /
+                                          100
+                                      : item.product_Price,
+                                  },
+                                ]);
+                              }
+                            }}
+                            title='Thêm vào giỏ hàng'
+                          >
                             <PlusCircleOutlined /> Thêm vào giỏ hàng
                           </button>
                         ) : (

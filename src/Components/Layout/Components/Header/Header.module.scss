@@ -96,6 +96,95 @@
           right: 10px;
         }
       }
+      .cart-list {
+        width: 40rem;
+        max-height: 50rem;
+        > div {
+          width: 100%;
+          > h3 {
+            margin: 0;
+            padding: 1rem;
+            color: #ccc;
+            font-style: italic;
+          }
+          .cart-item {
+            position: relative;
+            padding: 1rem;
+            padding-bottom: 2rem;
+            height: 5rem;
+            width: 100%;
+            display: flex;
+            border-bottom: 1px solid rgb(222, 222, 222);
+            > img {
+              width: 8rem;
+              height: 5rem;
+              margin-right: 1rem;
+              border-radius: 4px;
+            }
+            .content {
+              flex: 1;
+              margin-right: 4rem;
+              .name {
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+                overflow: hidden;
+                margin-bottom: 1rem;
+              }
+              .price {
+                color: var(--primary-color);
+                font-weight: 700;
+                font-style: italic;
+              }
+              .update-quantity {
+                margin-left: 1rem;
+                > span {
+                  padding: 0 0.6rem;
+                  &:hover {
+                    color: var(--primary-color);
+                  }
+                }
+              }
+            }
+            > span {
+              position: absolute;
+              top: 50%;
+              transform: translateY(-50%);
+              right: 4rem;
+              &:hover {
+                color: red;
+                cursor: pointer;
+              }
+            }
+            &:hover {
+              cursor: pointer;
+              background: rgb(240, 240, 240);
+            }
+          }
+          .checkout {
+            padding: 1rem;
+            .es-total {
+              padding-bottom: 1rem;
+              > b {
+                font-size: 2rem;
+                color: var(--primary-color);
+                font-style: italic;
+              }
+            }
+            > button {
+              width: 100%;
+              border: none;
+              font-size: 2rem;
+              font-weight: 700;
+              padding: 1rem 0;
+              color: var(--button-color);
+              border-radius: 4px;
+              background: var(--button-background);
+              cursor: pointer;
+            }
+          }
+        }
+      }
       .lookup,
       .cart {
         display: flex;
@@ -129,6 +218,7 @@
           }
         }
       }
+
       .action {
         .login {
           color: var(--text-color);

@@ -1,0 +1,22 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgb(242, 242, 242, 0.4);
+  font-size: 6rem;
+  font-weight: 700;
+  > span {
+    &:first-child {
+      font-size: 4rem;
+      color: #000;
+      font-style: italic;
+    }
+    color: rgb(20, 235, 20);
+  }
+}

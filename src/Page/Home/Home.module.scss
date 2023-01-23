@@ -201,8 +201,8 @@
           display: none;
           border: none;
           position: absolute;
-          background: linear-gradient(to right, #aaffa9, #11ffbd);
-          color: rgb(122, 122, 122);
+          background: var(--button-background);
+          color: var(--button-color);
           font-weight: 700;
           border-radius: 8px;
           padding: 1rem;

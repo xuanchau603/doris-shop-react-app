@@ -13,6 +13,12 @@
   --white-color: #fff;
   --background-color: #f3f3f3;
   --shadow: 0px 0px 12px 1px rgba(0, 0, 0, 0.3);
+  --button-color: rgb(87, 87, 87);
+  --button-background: linear-gradient(
+    90deg,
+    hsla(173, 67%, 76%, 1) 0%,
+    hsla(115, 94%, 67%, 1) 100%
+  );
 }
 
 html {

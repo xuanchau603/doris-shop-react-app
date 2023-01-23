@@ -1,3 +1,4 @@
 import logo from "../Image/l-transformed.png";
 import banner from "../Image/banner.jpg";
-export { logo, banner };
+import cartEmpty from "../Image/cart-empty-img.8b677cb3.png";
+export { logo, banner, cartEmpty };

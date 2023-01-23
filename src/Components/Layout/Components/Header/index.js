@@ -1,6 +1,6 @@
 import style from "./Header.module.scss";
 import classNames from "classnames/bind";
-import { json, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { Buffer } from "buffer";
 import {
@@ -14,8 +14,21 @@ import {
   PoweroffOutlined,
   SkinOutlined,
   LockOutlined,
+  DeleteOutlined,
+  PlusCircleOutlined,
+  MinusCircleOutlined,
 } from "@ant-design/icons";
-import { Row, Col, Avatar, Image } from "antd";
+import { cartEmpty } from "../../../../Image";
+import {
+  Row,
+  Col,
+  Avatar,
+  Image,
+  Alert,
+  message,
+  Spin,
+  Popconfirm,
+} from "antd";
 import TippyHeadless from "@tippyjs/react/headless";
 import Popper from "../../../Popper";
 import { logo } from "../../../../Image";
@@ -24,6 +37,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../../../Redux/apiRequest";
 import { useDebounce } from "../../../Hooks";
 import axios from "axios";
+import {
+  addQuantity,
+  minusQuantity,
+  removeFromCart,
+  updateCart,
+} from "../../../../Redux/cartSlice";
+import Loading from "../../../Loading";
 
 const cx = classNames.bind(style);
 
@@ -36,6 +56,15 @@ function Header() {
   const user = useSelector((state) => {
     return state.auth.login.currentUser;
   });
+
+  const cart = useSelector((state) => {
+    return state.cart.cart;
+  });
+
+  const totalCart = cart?.reduce((acc, currentValue) => {
+    return acc + currentValue.productPrice * currentValue.quantity;
+  }, 0);
+
   localStorage.setItem("user", JSON.stringify(user));
 
   const image = Buffer.from(user?.data?.avatar || "", "base64").toString(
@@ -171,6 +200,7 @@ function Header() {
                 <input
                   className={cx("search-input")}
                   type='text'
+                  value={searchValue}
                   placeholder='Bạn tìm gì...'
                   onFocus={() => setShowsr(true)}
                   onChange={(e) => {
@@ -198,12 +228,105 @@ function Header() {
           <div title='Tra cứu đơn hàng' className={cx("lookup")}>
             Tra cứu đơn hàng
           </div>
-          <div title='Giỏ hàng' className={cx("cart")}>
-            <ShoppingCartOutlined
-              count='0'
-              className={cx("icon-cart")}
-            ></ShoppingCartOutlined>
-            Giỏ hàng
+          <div>
+            <TippyHeadless
+              // visible
+              interactive
+              offset={[80, 10]}
+              render={(attr) => {
+                return (
+                  <div className={cx("cart-list")}>
+                    <Popper>
+                      {cart?.length > 0 ? (
+                        <>
+                          <h3>Sản phẩm đã thêm</h3>
+                          {cart?.map((item, index) => (
+                            <div key={index} className={cx("cart-item")}>
+                              <img alt='' src={item.productImage}></img>
+                              <div className={cx("content")}>
+                                <div className={cx("name")}>
+                                  {item.productName}
+                                </div>
+                                <span className={cx("price")}>
+                                  {new Intl.NumberFormat("vi-VN", {
+                                    style: "currency",
+                                    currency: "VND",
+                                  }).format(item.productPrice)}
+                                </span>
+                                <span className={cx("count")}>
+                                  {" "}
+                                  x {item.quantity}
+                                </span>
+                                <span className={cx("update-quantity")}>
+                                  <PlusCircleOutlined
+                                    title='Tăng số lượng'
+                                    onClick={() => {
+                                      dispatch(addQuantity(index));
+                                    }}
+                                  />
+                                  <MinusCircleOutlined
+                                    title='Giảm số lượng'
+                                    onClick={() => {
+                                      dispatch(minusQuantity(index));
+                                    }}
+                                  />
+                                </span>
+                              </div>
+
+                              <Popconfirm
+                                okText='Xóa'
+                                cancelText='Hủy'
+                                placement='topLeft'
+                                title='Bạn có chắc chắn xóa sản phẩm này?'
+                                onConfirm={() => {
+                                  dispatch(removeFromCart(index));
+                                }}
+                              >
+                                <span title='Xóa sản phẩm'>
+                                  <DeleteOutlined />
+                                </span>
+                              </Popconfirm>
+                            </div>
+                          ))}
+
+                          <div className={cx("checkout")}>
+                            <div className={cx("es-total")}>
+                              Tổng tiền tạm tính:{" "}
+                              <b>
+                                {new Intl.NumberFormat("vi-VN", {
+                                  style: "currency",
+                                  currency: "VND",
+                                }).format(totalCart)}
+                              </b>
+                            </div>
+                            <button title='Thanh toán'>
+                              Tiến hành thanh toán
+                            </button>
+                          </div>
+                        </>
+                      ) : (
+                        <img
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                          }}
+                          src={cartEmpty}
+                          alt='cart-empty'
+                        ></img>
+                      )}
+                    </Popper>
+                  </div>
+                );
+              }}
+            >
+              <div title='Giỏ hàng' className={cx("cart")}>
+                <ShoppingCartOutlined
+                  count={cart?.length > 0 ? cart.length : 0}
+                  className={cx("icon-cart")}
+                ></ShoppingCartOutlined>
+                Giỏ hàng
+              </div>
+            </TippyHeadless>
           </div>
           <div
             className={cx("action")}
@@ -303,7 +426,15 @@ function Header() {
               interactive
               placement='bottom-end'
             >
-              <Link style={{ with: "100%" }}>Trang điểm</Link>
+              <Link
+                onClick={async () => {
+                  await message.loading("Hello", 2);
+                  message.success("Ok", 1);
+                }}
+                style={{ with: "100%" }}
+              >
+                Trang điểm
+              </Link>
             </TippyHeadless>
           </div>
           <div className={cx("popper")}>
