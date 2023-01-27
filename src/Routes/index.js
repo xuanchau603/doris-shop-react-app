@@ -13,6 +13,7 @@ import AdminCategory from "../Components/Admin/AdminCategory";
 import CreateCategory from "../Components/Admin/AdminCategory/CreateCategory";
 import EditCategory from "../Components/Admin/AdminCategory/EditCategory";
 import EditProduct from "../Components/Admin/AdminProduct/EditProduct";
+import Cart from "../Page/Cart";
 
 //public route
 const publicRoutes = [
@@ -33,6 +34,10 @@ const publicRoutes = [
     path: "/register",
     component: Register,
     layout: AuthLayout,
+  },
+  {
+    path: "/cart",
+    component: Cart,
   },
 ];
 
