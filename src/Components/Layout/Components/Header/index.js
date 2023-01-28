@@ -1,6 +1,6 @@
 import style from "./Header.module.scss";
 import classNames from "classnames/bind";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { Buffer } from "buffer";
 import {
@@ -19,16 +19,7 @@ import {
   MinusCircleOutlined,
 } from "@ant-design/icons";
 import { cartEmpty } from "../../../../Image";
-import {
-  Row,
-  Col,
-  Avatar,
-  Image,
-  Alert,
-  message,
-  Spin,
-  Popconfirm,
-} from "antd";
+import { Row, Col, Avatar, Image, message, Popconfirm } from "antd";
 import TippyHeadless from "@tippyjs/react/headless";
 import Popper from "../../../Popper";
 import { logo } from "../../../../Image";
@@ -41,9 +32,7 @@ import {
   addQuantity,
   minusQuantity,
   removeFromCart,
-  updateCart,
 } from "../../../../Redux/cartSlice";
-import Loading from "../../../Loading";
 
 const cx = classNames.bind(style);
 
@@ -68,7 +57,7 @@ function Header() {
   localStorage.setItem("user", JSON.stringify(user));
 
   const image = Buffer.from(user?.data?.avatar || "", "base64").toString(
-    "ascii"
+    "ascii",
   );
 
   const handleScroll = () => {
@@ -82,6 +71,8 @@ function Header() {
       header.current.style.boxShadow = "0 0 0 #000";
     }
   };
+
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -104,7 +95,7 @@ function Header() {
     }
     setLoading(true);
     const res = axios.get(
-      `http://localhost:3001/product/?name=${encodeURIComponent(debounce)}`
+      `http://localhost:3001/product/?name=${encodeURIComponent(debounce)}`,
     );
     res.then((res) => {
       setSearchResult(res.data);
@@ -121,7 +112,7 @@ function Header() {
             fontSize: "2rem",
             fontWeight: "700",
           }}
-          direction='right'
+          direction="right"
           speed={120}
           pauseOnHover
         >
@@ -131,7 +122,7 @@ function Header() {
       <div ref={header} className={cx("header")}>
         <div className={cx("header-top")}>
           <Link className={cx("logo")} to={"/"}>
-            <img alt='logo' src={logo}></img>
+            <img alt="logo" src={logo}></img>
           </Link>
           <div>
             <TippyHeadless
@@ -141,7 +132,7 @@ function Header() {
               visible={searchResult.length > 0 && showsr}
               interactive
               offset={[40, 6]}
-              placement='bottom'
+              placement="bottom"
               render={(attr) => {
                 return (
                   <div className={cx("search-result")}>
@@ -153,10 +144,10 @@ function Header() {
                           className={cx("search-result-item")}
                         >
                           <img
-                            alt=''
+                            alt=""
                             src={Buffer.from(
                               item.product_Image || "",
-                              "base64"
+                              "base64",
                             ).toString("ascii")}
                           ></img>
                           <div className={cx("content")}>
@@ -174,7 +165,7 @@ function Header() {
                                         (item.promotion.discount *
                                           item.product_Price) /
                                           100
-                                    : item.product_Price
+                                    : item.product_Price,
                                 )}
                               </strong>
                               {item.promotion_ID ? (
@@ -199,9 +190,9 @@ function Header() {
               <div className={cx("search")}>
                 <input
                   className={cx("search-input")}
-                  type='text'
+                  type="text"
                   value={searchValue}
-                  placeholder='Bạn tìm gì...'
+                  placeholder="Bạn tìm gì..."
                   onFocus={() => setShowsr(true)}
                   onChange={(e) => {
                     if (e.target.value === " ") return;
@@ -210,7 +201,7 @@ function Header() {
                 ></input>
                 {!loading && (
                   <SearchOutlined
-                    title='Tìm kiếm'
+                    title="Tìm kiếm"
                     size={"large"}
                     className={cx("icon-search")}
                     style={{ fontSize: "24px" }}
@@ -225,7 +216,7 @@ function Header() {
               </div>
             </TippyHeadless>
           </div>
-          <div title='Tra cứu đơn hàng' className={cx("lookup")}>
+          <div title="Tra cứu đơn hàng" className={cx("lookup")}>
             Tra cứu đơn hàng
           </div>
           <div>
@@ -242,7 +233,7 @@ function Header() {
                           <h3>Sản phẩm đã thêm</h3>
                           {cart?.map((item, index) => (
                             <div key={index} className={cx("cart-item")}>
-                              <img alt='' src={item.productImage}></img>
+                              <img alt="" src={item.productImage}></img>
                               <div className={cx("content")}>
                                 <div className={cx("name")}>
                                   {item.productName}
@@ -259,13 +250,13 @@ function Header() {
                                 </span>
                                 <span className={cx("update-quantity")}>
                                   <PlusCircleOutlined
-                                    title='Tăng số lượng'
+                                    title="Tăng số lượng"
                                     onClick={() => {
                                       dispatch(addQuantity(index));
                                     }}
                                   />
                                   <MinusCircleOutlined
-                                    title='Giảm số lượng'
+                                    title="Giảm số lượng"
                                     onClick={() => {
                                       dispatch(minusQuantity(index));
                                     }}
@@ -274,15 +265,15 @@ function Header() {
                               </div>
 
                               <Popconfirm
-                                okText='Xóa'
-                                cancelText='Hủy'
-                                placement='topLeft'
-                                title='Bạn có chắc chắn xóa sản phẩm này?'
+                                okText="Xóa"
+                                cancelText="Hủy"
+                                placement="topLeft"
+                                title="Bạn có chắc chắn xóa sản phẩm này?"
                                 onConfirm={() => {
                                   dispatch(removeFromCart(index));
                                 }}
                               >
-                                <span title='Xóa sản phẩm'>
+                                <span title="Xóa sản phẩm">
                                   <DeleteOutlined />
                                 </span>
                               </Popconfirm>
@@ -299,9 +290,9 @@ function Header() {
                                 }).format(totalCart)}
                               </b>
                             </div>
-                            <button title='Thanh toán'>
+                            <Link to={"/cart"} title="Thanh toán">
                               Tiến hành thanh toán
-                            </button>
+                            </Link>
                           </div>
                         </>
                       ) : (
@@ -311,7 +302,7 @@ function Header() {
                             height: "100%",
                           }}
                           src={cartEmpty}
-                          alt='cart-empty'
+                          alt="cart-empty"
                         ></img>
                       )}
                     </Popper>
@@ -319,7 +310,13 @@ function Header() {
                 );
               }}
             >
-              <div title='Giỏ hàng' className={cx("cart")}>
+              <div
+                title="Giỏ hàng"
+                onClick={() => {
+                  navigate("/cart");
+                }}
+                className={cx("cart")}
+              >
                 <ShoppingCartOutlined
                   count={cart?.length > 0 ? cart.length : 0}
                   className={cx("icon-cart")}
@@ -377,7 +374,7 @@ function Header() {
                   </ul>
                 )}
                 interactive
-                placement='bottom'
+                placement="bottom"
                 visible={userMenu}
                 onClickOutside={() => setUserMenu(false)}
                 offset={[30, 4]}
@@ -424,7 +421,7 @@ function Header() {
                 </div>
               )}
               interactive
-              placement='bottom-end'
+              placement="bottom-end"
             >
               <Link
                 onClick={async () => {
@@ -457,7 +454,7 @@ function Header() {
                 </div>
               )}
               interactive
-              placement='bottom-end'
+              placement="bottom-end"
               offset={[-160, 10]}
             >
               <Link style={{ with: "100%" }}>Chăm sóc da mặt</Link>
@@ -483,7 +480,7 @@ function Header() {
                 </div>
               )}
               interactive
-              placement='bottom-end'
+              placement="bottom-end"
               offset={[740, 10]}
             >
               <Link style={{ with: "100%" }}>Chăm sóc tóc</Link>
@@ -509,7 +506,7 @@ function Header() {
                 </div>
               )}
               interactive
-              placement='bottom-end'
+              placement="bottom-end"
               offset={[530, 10]}
             >
               <Link style={{ with: "100%" }}>Phụ kiện</Link>
@@ -535,7 +532,7 @@ function Header() {
                 </div>
               )}
               interactive
-              placement='bottom-end'
+              placement="bottom-end"
               offset={[340, 10]}
             >
               <Link style={{ with: "100%" }}>Nước hoa</Link>
@@ -561,7 +558,7 @@ function Header() {
                 </div>
               )}
               interactive
-              placement='bottom-end'
+              placement="bottom-end"
               offset={[180, 10]}
             >
               <Link style={{ with: "100%" }}>Dành cho bé</Link>
@@ -587,7 +584,7 @@ function Header() {
                 </div>
               )}
               interactive
-              placement='right-end'
+              placement="right-end"
               offset={[24, -80]}
             >
               <Link style={{ with: "100%" }}>Chăm sóc toàn thân</Link>

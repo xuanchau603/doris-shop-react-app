@@ -18,7 +18,10 @@
     box-shadow: var(--shadow);
     border-radius: 4px;
     .listing-cart {
-      border-bottom: 1px solid #000;
+      max-height: 60rem;
+      border-bottom: 1px solid #ccc;
+      overflow-x: hidden;
+      overflow-y: auto;
       .item-cart {
         display: flex;
         padding: 1rem 3rem;
@@ -105,7 +108,6 @@
         .total-price {
           font-size: 1.8rem;
           font-weight: 600;
-          color: red;
         }
       }
     }
@@ -117,7 +119,6 @@
       }
       .fill-customer {
         display: flex;
-        justify-content: space-evenly;
         .form-group {
           position: relative;
           width: 100%;
@@ -153,6 +154,158 @@
           }
         }
       }
+    }
+    .delivery-form {
+      border-bottom: 1px solid #ccc;
+
+      padding: 1rem 2rem;
+      p,
+      .way {
+        margin-bottom: 1rem;
+      }
+      .content,
+      .content-1 {
+        position: relative;
+        background-color: rgb(233, 233, 233);
+        border: 1px solid rgb(218, 218, 218);
+        padding: 1rem 0.8rem;
+        &::after {
+          z-index: 0;
+          content: "";
+          border-left: 10px solid transparent;
+          border-right: 10px solid transparent;
+          border-bottom: 10px solid rgb(233, 233, 233);
+          position: absolute;
+          top: -11px;
+          left: 60px;
+        }
+        .address {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          > div {
+            .ant-select {
+              background: #ccc;
+            }
+            .form-group {
+              position: relative;
+              width: 100%;
+              .label {
+                position: absolute;
+                font-size: 1.5rem;
+                top: 0.7rem;
+                left: 1rem;
+                pointer-events: none;
+                transition: all 0.1s linear;
+              }
+
+              > input {
+                width: 100%;
+                padding: 0.8rem;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                &:focus {
+                  border: 1px solid var(--primary-color);
+                  box-shadow: 0 0 4px var(--primary-color);
+                  + .label {
+                    top: -0.8rem;
+                    font-size: 1.3rem;
+                    background: #fff;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .content-1 {
+        &::after {
+          left: 180px;
+        }
+      }
+      .more-option {
+        margin: 2rem 0;
+        position: relative;
+        .label {
+          transition: all 0.1s linear;
+          position: absolute;
+          left: 1rem;
+          top: 1rem;
+          pointer-events: none;
+        }
+        > input {
+          width: 100%;
+          border: 1px solid #ccc;
+          padding: 1.2rem 1rem;
+          border-radius: 4px;
+          &:focus {
+            border: 1px solid var(--primary-color);
+            box-shadow: 0 0 4px var(--primary-color);
+            + .label {
+              top: -0.8rem;
+              font-size: 1.4rem;
+              background: #fff;
+            }
+          }
+        }
+      }
+    }
+    .total {
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      > p {
+        font-weight: 700;
+      }
+      > b {
+        color: red;
+        font-size: 2rem;
+      }
+    }
+    .btn-order {
+      padding: 1rem 2rem;
+      > button {
+        width: 100%;
+        background: var(--button-background);
+        font-size: 2.2rem;
+        padding: 1.4rem 0;
+        border-radius: 8px;
+        color: var(--button-color);
+        font-weight: 700;
+        cursor: pointer;
+      }
+    }
+    > p {
+      text-align: center;
+      font-size: 1.4rem;
+      color: rgb(72, 72, 72);
+      padding-bottom: 3rem;
+    }
+  }
+  .cart-empty {
+    padding-top: 10rem;
+    padding-bottom: 30rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    > p {
+      padding-top: 1rem;
+      > b {
+        color: var(--primary-color);
+      }
+    }
+    > a {
+      text-align: center;
+      margin-top: 1rem;
+      border: 1px solid var(--primary-color);
+      width: 100%;
+      padding: 1rem;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      border-radius: 8px;
     }
   }
 }

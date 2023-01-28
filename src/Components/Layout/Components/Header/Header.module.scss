@@ -172,7 +172,9 @@
                 font-style: italic;
               }
             }
-            > button {
+            > a {
+              display: block;
+              text-align: center;
               width: 100%;
               border: none;
               font-size: 2rem;

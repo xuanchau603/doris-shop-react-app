@@ -79,47 +79,47 @@ function Home() {
   return (
     <div className={cx("wrapper")}>
       <div className={cx("banner")}>
-        <img src={banner} alt='banner' className={cx("banner-img")}></img>
+        <img src={banner} alt="banner" className={cx("banner-img")}></img>
         <div className={cx("slider-banner")}>
           <Sliders></Sliders>
         </div>
       </div>
       <ul className={cx("option-promo")}>
         <li className={cx("promo-item")}>
-          <Link href='/'>
+          <Link href="/">
             <img
-              src='https://cdn.tgdd.vn//content/iv-100x100.png'
-              alt=''
+              src="https://cdn.tgdd.vn//content/iv-100x100.png"
+              alt=""
               style={{ width: "70px", height: "70px" }}
             ></img>
             <span>Săn Sale Online</span>
           </Link>
         </li>
         <li className={cx("promo-item")}>
-          <Link href='/'>
+          <Link href="/">
             <img
-              src='https://cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/homev2/goiy-1.png'
-              alt=''
+              src="https://cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/homev2/goiy-1.png"
+              alt=""
               style={{ width: "70px", height: "70px" }}
             ></img>
             <span>Dành cho bạn</span>
           </Link>
         </li>
         <li className={cx("promo-item")}>
-          <Link href='/'>
+          <Link href="/">
             <img
-              src='https://cdn.tgdd.vn//content/icon-dien-thoai-120x120.png'
-              alt=''
+              src="https://cdn.tgdd.vn//content/icon-dien-thoai-120x120.png"
+              alt=""
               style={{ width: "70px", height: "70px" }}
             ></img>
             <span>Độc quyền tại Doris</span>
           </Link>
         </li>
         <li className={cx("promo-item")}>
-          <Link href='/'>
+          <Link href="/">
             <img
-              src='https://cdn.tgdd.vn//content/icon-TGDD-OF-100x100.gif'
-              alt=''
+              src="https://cdn.tgdd.vn//content/icon-TGDD-OF-100x100.gif"
+              alt=""
               style={{ width: "70px", height: "70px" }}
             ></img>
             <span>Giảm đến 50%</span>
@@ -131,8 +131,8 @@ function Home() {
         <h1>
           <div className={cx("heading")}>
             <img
-              src='https://cdn.tgdd.vn/mwgcart/mwg-site/ContentMwg/images/noel/icon-huu-desktop.png?v=1'
-              alt=''
+              src="https://cdn.tgdd.vn/mwgcart/mwg-site/ContentMwg/images/noel/icon-huu-desktop.png?v=1"
+              alt=""
             ></img>
             Danh sách sản phẩm
           </div>
@@ -141,7 +141,7 @@ function Home() {
               items={items}
               trigger={trigger}
               label={
-                <Link href='/'>
+                <Link href="/">
                   Sắp xếp theo <CaretDownOutlined />
                 </Link>
               }
@@ -174,9 +174,9 @@ function Home() {
                       <img
                         src={Buffer.from(
                           item.product_Image || "",
-                          "base64"
+                          "base64",
                         ).toString("ascii")}
-                        alt=''
+                        alt=""
                       ></img>
                       <div className={cx("sale-status")}>
                         {item.product_Quantity > 0 ? (
@@ -204,7 +204,7 @@ function Home() {
                                 ? (item.product_Price *
                                     item.promotion.discount) /
                                   100
-                                : 0)
+                                : 0),
                           )}
                         </strong>
                         {item.promotion_ID ? (
@@ -232,8 +232,8 @@ function Home() {
                               const base64 = await fetch(
                                 Buffer.from(
                                   item.product_Image || "",
-                                  "base64"
-                                ).toString("ascii")
+                                  "base64",
+                                ).toString("ascii"),
                               );
                               const blob = await base64.blob();
                               const file = new File([blob], "name", {
@@ -243,10 +243,10 @@ function Home() {
                               if (cart) {
                                 const index = cart.findIndex(
                                   (product) =>
-                                    product.productName === item.product_Name
+                                    product.productName === item.product_Name,
                                 );
                                 if (index === -1) {
-                                  <Spin spinning tip='Đang xử lý'></Spin>;
+                                  <Spin spinning tip="Đang xử lý"></Spin>;
 
                                   dispatch(
                                     addToCart({
@@ -259,39 +259,45 @@ function Home() {
                                             item.product_Price) /
                                             100
                                         : item.product_Price,
-                                    })
+                                      productOldPrice: item.promotion_ID
+                                        ? item.product_Price
+                                        : "",
+                                    }),
                                   );
                                   <Spin
                                     spinning={false}
-                                    tip='Đang xử lý'
+                                    tip="Đang xử lý"
                                   ></Spin>;
                                 } else {
                                   dispatch(addQuantity(index));
                                 }
                               } else {
-                                initCart([
-                                  {
-                                    productName: item.product_Name,
-                                    productImage: linkImage,
-                                    quantity: 1,
-                                    productPrice: item.promotion_ID
-                                      ? item.product_Price -
-                                        (item.promotion.discount *
-                                          item.product_Price) /
-                                          100
-                                      : item.product_Price,
-                                  },
-                                ]);
+                                dispatch(
+                                  initCart([
+                                    {
+                                      productName: item.product_Name,
+                                      productImage: linkImage,
+                                      quantity: 1,
+                                      productPrice: item.promotion_ID
+                                        ? item.product_Price -
+                                          (item.promotion.discount *
+                                            item.product_Price) /
+                                            100
+                                        : item.product_Price,
+                                      productOldPrice: item.product_Price,
+                                    },
+                                  ]),
+                                );
                               }
                             }}
-                            title='Thêm vào giỏ hàng'
+                            title="Thêm vào giỏ hàng"
                           >
                             <PlusCircleOutlined /> Thêm vào giỏ hàng
                           </button>
                         ) : (
                           <button
                             style={{ opacity: "0.4", cursor: "not-allowed" }}
-                            title='Hết hàng'
+                            title="Hết hàng"
                           >
                             <PlusCircleOutlined /> Thêm vào giỏ hàng
                           </button>

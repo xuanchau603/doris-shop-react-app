@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { message, Spin } from "antd";
+import { message } from "antd";
 
 const cartSlice = createSlice({
   name: "cart",
@@ -8,6 +8,7 @@ const cartSlice = createSlice({
   },
   reducers: {
     initCart: (state, action) => {
+      console.log("Ok");
       state.cart = action.payload;
       localStorage.setItem("cart", JSON.stringify(action.payload));
       message.success("Thêm vào giỏ hàng thành công!", 2);
