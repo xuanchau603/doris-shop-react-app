@@ -9,15 +9,31 @@ import {
   FilePdfOutlined,
   PrinterOutlined,
   EditOutlined,
+  InfoCircleOutlined,
 } from "@ant-design/icons/lib/icons";
 import Selection from "../../Select";
-import { Spin, Table } from "antd";
+import { message, Popconfirm, Spin, Table } from "antd";
 import Apptitle from "../Components/AppTitle";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const cx = classNames.bind(style);
 
 function AdminOrder() {
+  const [orders, setOrders] = useState([]);
+
+  const getAllOrder = async () => {
+    const res = await axios.get("http://localhost:3001/order");
+    if (res) {
+      setOrders(res.data);
+    }
+  };
+
+  useEffect(() => {
+    getAllOrder();
+  }, []);
+
   const optionsSelect = [
     {
       value: "10",
@@ -42,20 +58,20 @@ function AdminOrder() {
       dataIndex: "id",
     },
     {
-      title: "Khách hàng",
+      title: "Tên khách hàng",
       dataIndex: "customer",
     },
     {
-      title: "Đơn hàng",
-      dataIndex: "order",
+      title: "Số điện thoại",
+      dataIndex: "phone",
     },
     {
-      title: "Số lượng",
-      dataIndex: "quantity",
+      title: "Địa chỉ",
+      dataIndex: "address",
     },
     {
-      title: "Tổng tiền",
-      dataIndex: "total",
+      title: "Ghi chú",
+      dataIndex: "note",
     },
     {
       title: "Tình trạng",
@@ -66,42 +82,120 @@ function AdminOrder() {
       dataIndex: "action",
     },
   ];
-  const data = [
-    {
-      key: "1",
-      id: "1",
-      customer: "Lê xuân châu",
-      order: "Kem chống nắng Skin Aqua",
-      quantity: 2,
-      total: new Intl.NumberFormat("vi-VN", {
-        style: "currency",
-        currency: "VND",
-      }).format(4990000),
-      status: <span>Hoàn thành</span>,
+
+  const handleDelete = async (id) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:3001/order/delete/?id=${id}`,
+      );
+      if (res.status === 200) {
+        message.success("Xóa thành công đơn hàng!", 2);
+        getAllOrder();
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const data = orders.map((item) => {
+    let statusTag;
+    if (item.status === 0) {
+      statusTag = (
+        <span
+          style={{
+            padding: "1rem",
+            background: "var(--warning-color)",
+            borderRadius: "8px",
+          }}
+        >
+          Chờ xác nhận
+        </span>
+      );
+    } else if (item.status === 1) {
+      statusTag = (
+        <span
+          style={{
+            padding: "1rem",
+            background: "var(--success-color)",
+            borderRadius: "8px",
+          }}
+        >
+          Đã xác nhận
+        </span>
+      );
+    } else {
+      statusTag = (
+        <span
+          style={{
+            padding: "1rem",
+            background: "var(--error-color)",
+            borderRadius: "8px",
+          }}
+        >
+          Đã hủy
+        </span>
+      );
+    }
+    return {
+      key: item.id,
+      id: item.id,
+      customer: item.full_Name,
+      phone: item.phone,
+      address: item.address,
+      note: item.note,
+      status: statusTag,
       action: (
-        <span>
-          <EditOutlined /> <DeleteOutlined />
+        <span className={cx("action-table")}>
+          <InfoCircleOutlined
+            onClick={() => {
+              navigate("/admin/order/detail", {
+                state: {
+                  order_ID: item.id,
+                  order_Date: item.createdAt,
+                  order_Date_up: item.updatedAt,
+                  status: item.status,
+                  fullName: item.full_Name,
+                  phone: item.phone,
+                  address: item.address,
+                  type: item.payment_Type,
+                  total: item.total_Order,
+                },
+              });
+            }}
+            title="Chi tiết đơn hàng"
+          />{" "}
+          <EditOutlined
+            onClick={() => {
+              navigate("/admin/order/edit", {
+                state: {
+                  order_ID: item.id,
+                  status: item.status,
+                  fullName: item.full_Name,
+                  phone: item.phone,
+                  address: item.address,
+                  note: item.note,
+                  type: item.payment_Type,
+                  total: item.total_Order,
+                },
+              });
+            }}
+            title="Chỉnh sửa đơn hàng"
+          />{" "}
+          <Popconfirm
+            okText="Xóa"
+            cancelText="Hủy"
+            placement="topLeft"
+            title="Bạn có chắc chắn xóa đơn hàng này?"
+            onConfirm={() => {
+              handleDelete(item.id);
+            }}
+          >
+            <DeleteOutlined title="Xóa đơn hàng" />
+          </Popconfirm>
         </span>
       ),
-    },
-    {
-      key: "2",
-      id: "1",
-      customer: "gfdsg",
-      order: "Kem chống nắng Skin Aqua",
-      quantity: 2,
-      total: new Intl.NumberFormat("vi-VN", {
-        style: "currency",
-        currency: "VND",
-      }).format(4990000),
-      status: <span>Hoàn thành</span>,
-      action: (
-        <span>
-          <EditOutlined /> <DeleteOutlined />
-        </span>
-      ),
-    },
-  ];
+    };
+  });
   const navigate = useNavigate();
 
   const handleCreateOrder = () => {

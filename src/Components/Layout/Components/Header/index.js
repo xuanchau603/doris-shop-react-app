@@ -42,6 +42,7 @@ function Header() {
   const [showsr, setShowsr] = useState(false);
   const [loading, setLoading] = useState(false);
   const [userMenu, setUserMenu] = useState(false);
+  const [cate, setCate] = useState([]);
   const user = useSelector((state) => {
     return state.auth.login.currentUser;
   });
@@ -80,9 +81,14 @@ function Header() {
 
   const debounce = useDebounce(searchValue, 800);
 
+  const getCategory = async () => {
+    const res = await axios.get("http://localhost:3001/category/min");
+    setCate(res.data);
+  };
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
-
+    getCategory();
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -401,195 +407,38 @@ function Header() {
           </div>
         </div>
         <div className={cx("header-main")}>
-          <div className={cx("popper")}>
-            <TippyHeadless
-              render={(attrs) => (
-                <div className={cx("category")}>
-                  <Popper>
-                    <Row gutter={[16, 16]}>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                    </Row>
-                  </Popper>
-                </div>
-              )}
-              interactive
-              placement="bottom-end"
-            >
-              <Link
-                onClick={async () => {
-                  await message.loading("Hello", 2);
-                  message.success("Ok", 1);
-                }}
-                style={{ with: "100%" }}
-              >
-                Trang điểm
-              </Link>
-            </TippyHeadless>
-          </div>
-          <div className={cx("popper")}>
-            <TippyHeadless
-              render={(attrs) => (
-                <div className={cx("category")}>
-                  <Popper>
-                    <Row gutter={[16, 16]}>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                    </Row>
-                  </Popper>
-                </div>
-              )}
-              interactive
-              placement="bottom-end"
-              offset={[-160, 10]}
-            >
-              <Link style={{ with: "100%" }}>Chăm sóc da mặt</Link>
-            </TippyHeadless>
-          </div>
-          <div className={cx("popper")}>
-            <TippyHeadless
-              render={(attrs) => (
-                <div className={cx("category")}>
-                  <Popper>
-                    <Row gutter={[16, 16]}>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                    </Row>
-                  </Popper>
-                </div>
-              )}
-              interactive
-              placement="bottom-end"
-              offset={[740, 10]}
-            >
-              <Link style={{ with: "100%" }}>Chăm sóc tóc</Link>
-            </TippyHeadless>
-          </div>
-          <div className={cx("popper")}>
-            <TippyHeadless
-              render={(attrs) => (
-                <div className={cx("category")}>
-                  <Popper>
-                    <Row gutter={[16, 16]}>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                    </Row>
-                  </Popper>
-                </div>
-              )}
-              interactive
-              placement="bottom-end"
-              offset={[530, 10]}
-            >
-              <Link style={{ with: "100%" }}>Phụ kiện</Link>
-            </TippyHeadless>
-          </div>
-          <div className={cx("popper")}>
-            <TippyHeadless
-              render={(attrs) => (
-                <div className={cx("category")}>
-                  <Popper>
-                    <Row gutter={[16, 16]}>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                    </Row>
-                  </Popper>
-                </div>
-              )}
-              interactive
-              placement="bottom-end"
-              offset={[340, 10]}
-            >
-              <Link style={{ with: "100%" }}>Nước hoa</Link>
-            </TippyHeadless>
-          </div>
-          <div className={cx("popper")}>
-            <TippyHeadless
-              render={(attrs) => (
-                <div className={cx("category")}>
-                  <Popper>
-                    <Row gutter={[16, 16]}>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                    </Row>
-                  </Popper>
-                </div>
-              )}
-              interactive
-              placement="bottom-end"
-              offset={[180, 10]}
-            >
-              <Link style={{ with: "100%" }}>Dành cho bé</Link>
-            </TippyHeadless>
-          </div>
-          <div className={cx("popper")}>
-            <TippyHeadless
-              render={(attrs) => (
-                <div className={cx("category")}>
-                  <Popper>
-                    <Row gutter={[16, 16]}>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                      <Col className={cx("col")} span={8}>
-                        <div className={cx("cate-item")}>Chăm sóc da mặt</div>
-                      </Col>
-                    </Row>
-                  </Popper>
-                </div>
-              )}
-              interactive
-              placement="right-end"
-              offset={[24, -80]}
-            >
-              <Link style={{ with: "100%" }}>Chăm sóc toàn thân</Link>
-            </TippyHeadless>
-          </div>
+          {cate.map((item) => {
+            return (
+              <div key={item.cate_Id} className={cx("popper")}>
+                <TippyHeadless
+                  // offset={[0, 10]}
+                  placement="auto-start"
+                  interactive
+                  render={(attrs) => (
+                    <div key={item.cate_Id} className={cx("category")}>
+                      <Popper>
+                        <Row gutter={[16, 16]}>
+                          {item?.products?.map((item) => {
+                            return (
+                              <Col className={cx("col")} span={8}>
+                                <div className={cx("cate-item")}>
+                                  {item.product_Name}
+                                </div>
+                              </Col>
+                            );
+                          })}
+                        </Row>
+                      </Popper>
+                    </div>
+                  )}
+                >
+                  <Link key={item.cate_Id} style={{ with: "100%" }}>
+                    {item.cate_Name}
+                  </Link>
+                </TippyHeadless>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

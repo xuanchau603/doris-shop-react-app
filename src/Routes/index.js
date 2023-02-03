@@ -14,6 +14,8 @@ import CreateCategory from "../Components/Admin/AdminCategory/CreateCategory";
 import EditCategory from "../Components/Admin/AdminCategory/EditCategory";
 import EditProduct from "../Components/Admin/AdminProduct/EditProduct";
 import Cart from "../Page/Cart";
+import OrderDetail from "../Components/Admin/AdminOrder/OrderDetail";
+import EditOrder from "../Components/Admin/AdminOrder/EditOrder";
 
 //public route
 const publicRoutes = [
@@ -55,6 +57,16 @@ const privateRoutes = [
   {
     path: "/admin/order/add",
     component: CreateOrder,
+    layout: AdminLayout,
+  },
+  {
+    path: "/admin/order/detail",
+    component: OrderDetail,
+    layout: AdminLayout,
+  },
+  {
+    path: "/admin/order/edit",
+    component: EditOrder,
     layout: AdminLayout,
   },
   {

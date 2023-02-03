@@ -250,6 +250,7 @@ function Home() {
 
                                   dispatch(
                                     addToCart({
+                                      id: item.product_ID,
                                       productName: item.product_Name,
                                       productImage: linkImage,
                                       quantity: 1,
@@ -275,6 +276,7 @@ function Home() {
                                 dispatch(
                                   initCart([
                                     {
+                                      id: item.product_ID,
                                       productName: item.product_Name,
                                       productImage: linkImage,
                                       quantity: 1,

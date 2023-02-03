@@ -42,10 +42,10 @@ function EditProduct() {
       setQuantity(state.quantity);
       setDescription(state.description);
       setCateID(state.cateID);
-      setPromotionID(state.promotionID === null ? "0" : state.promotionID);
+      setPromotionID(state.promotionID === null ? 0 : state.promotionID);
       cateIDRef.current.value = state.cateID;
       promoIDRef.current.value =
-        state.promotionID === null ? "0" : state.promotionID;
+        state.promotionID === null ? 0 : state.promotionID;
     };
     getData();
   }, []);
@@ -60,15 +60,6 @@ function EditProduct() {
       !promotionID
     ) {
       alert("Vui lòng nhập đầy đủ thông tin!");
-      console.log({
-        name,
-        price,
-        quantity,
-        image,
-        cateID,
-        promotionID,
-        description,
-      });
     } else {
       const data = {
         name,
@@ -82,78 +73,72 @@ function EditProduct() {
       try {
         const res = await axios.put(
           `http://localhost:3001/product/update/?id=${state.id}`,
-          data
+          data,
         );
         if (res.status === 200) {
-          setName("");
-          setPrice("");
-          setQuantity("");
-          setImage("");
-          setDescription("");
-          cateIDRef.current.value = "";
-          promoIDRef.current.value = "";
           refName.current.focus();
           alert("Cập nhật sản phẩm thành công!");
+          console.log(res);
         }
       } catch (error) {
-        alert(error?.response?.data);
+        alert(error);
       }
     }
   };
 
   return (
     <>
-      <Apptitle title='Sửa sản phẩm'></Apptitle>
+      <Apptitle title="Sửa sản phẩm"></Apptitle>
       <Form title={"Cập nhật sản phẩm"}>
         <Row className={cx("form")} gutter={[30, 20]}>
           <Col span={6}>
             <div className={cx("form-group")}>
-              <label for=''>
+              <label for="">
                 Tên sản phẩm <b>*</b>
               </label>
               <input
                 ref={refName}
-                type='text'
+                type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder='Nhập tên sản phẩm...'
+                placeholder="Nhập tên sản phẩm..."
               ></input>
             </div>
           </Col>
           <Col span={6}>
             <div className={cx("form-group")}>
-              <label for=''>
+              <label for="">
                 Giá sản phẩm <b>*</b>
               </label>
               <input
-                type='number'
+                type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-                placeholder='Nhập giá sản phẩm...'
+                placeholder="Nhập giá sản phẩm..."
               ></input>
             </div>
           </Col>
           <Col span={6}>
             <div className={cx("form-group")}>
-              <label for=''>
+              <label for="">
                 Số lượng <b>*</b>
               </label>
               <input
-                type='number'
+                type="number"
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
-                placeholder='Nhập số lượng...'
+                placeholder="Nhập số lượng..."
               ></input>
             </div>
           </Col>
           <Col span={6}>
             <div className={cx("form-group")}>
-              <label for=''>
+              <label for="">
                 Ảnh sản phẩm <b>*</b>
               </label>
               <input
                 ref={refImage}
-                type='file'
+                type="file"
                 onChange={(e) => {
                   const reader = new FileReader();
                   if (e.target.files.length === 0) {
@@ -169,8 +154,8 @@ function EditProduct() {
               ></input>
               <img
                 className={cx("preview")}
-                width='100%'
-                alt=''
+                width="100%"
+                alt=""
                 src={image}
               ></img>
             </div>
@@ -178,7 +163,7 @@ function EditProduct() {
 
           <Col span={6}>
             <div className={cx("form-group")}>
-              <label for=''>
+              <label for="">
                 Danh mục <b>*</b>
               </label>
               <select
@@ -200,7 +185,7 @@ function EditProduct() {
 
           <Col span={6}>
             <div className={cx("form-group")}>
-              <label for=''>
+              <label for="">
                 Khuyến mãi <b>*</b>
               </label>
               <select
@@ -223,11 +208,11 @@ function EditProduct() {
 
           <Col span={6}>
             <div className={cx("form-group")}>
-              <label for=''>Ghi chú sản phẩm </label>
+              <label for="">Ghi chú sản phẩm </label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder='Ghi chú sản phẩm(không bắt buộc)...'
+                placeholder="Ghi chú sản phẩm(không bắt buộc)..."
               ></textarea>
             </div>
           </Col>
