@@ -1,12 +1,13 @@
 import Apptitle from "./../Components/AppTitle/index";
 import style from "./AdminOrder.module.scss";
 import classNames from "classnames/bind";
-import { Col, Row, Table } from "antd";
+import { Col, Row, Skeleton, Table } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import { Buffer } from "buffer";
 import { useState } from "react";
+import { StepBackwardOutlined } from "@ant-design/icons";
 const cx = classNames.bind(style);
 
 function OrderDetail() {
@@ -75,11 +76,11 @@ function OrderDetail() {
     };
   });
   let type;
-  if (state.type === 0) {
+  if (state.type === 1) {
     type = "Thanh toán khi nhận hàng";
-  } else if (state.type === 1) {
-    type = "Thanh toán qua MoMo";
   } else if (state.type === 2) {
+    type = "Thanh toán qua MoMo";
+  } else if (state.type === 3) {
     type = "Thanh toán qua VNPAY";
   } else {
     type = "Chuyển khoản quan ngân hàng";
@@ -100,6 +101,10 @@ function OrderDetail() {
               }}
               span={12}
             >
+              <Link className={cx("back")} to={"/admin/order"}>
+                <StepBackwardOutlined />
+                Trở về
+              </Link>
               <div className={cx("detail-left")}>
                 <div className={cx("detail-id")}>
                   <h2>Mã đơn hàng:</h2> <span>{state.order_ID}</span>
@@ -131,6 +136,9 @@ function OrderDetail() {
                   <b>Địa chỉ:</b> <span>{state.address}</span>
                 </p>
                 <p className={cx("detail-status")}>
+                  <b>Ghi chú:</b> <span>{state.note}</span>
+                </p>
+                <p className={cx("detail-status")}>
                   <b>Tổng tiền đơn hàng:</b>{" "}
                   <span>
                     {new Intl.NumberFormat("vi-VN", {
@@ -140,27 +148,28 @@ function OrderDetail() {
                   </span>
                 </p>
               </div>
-              <Link className={cx("back")} to={"/admin/order"}>
-                Trở về
-              </Link>
             </Col>
             <Col span={12}>
               <h2>Danh sách sản phẩm</h2>
 
               <div className={cx("middle")}>
-                <Table
-                  bordered
-                  pagination={{
-                    position: ["bottomRight"],
-                    pageSize: 5,
-                    showTotal: (total) => `Số lượng ${total}`,
-                  }}
-                  rowSelection={{
-                    type: "checkbox",
-                  }}
-                  columns={columns}
-                  dataSource={data}
-                ></Table>
+                {orderDetail.length > 0 ? (
+                  <Table
+                    bordered
+                    pagination={{
+                      position: ["bottomRight"],
+                      pageSize: 5,
+                      showTotal: (total) => `Số lượng ${total}`,
+                    }}
+                    rowSelection={{
+                      type: "checkbox",
+                    }}
+                    columns={columns}
+                    dataSource={data}
+                  ></Table>
+                ) : (
+                  <Skeleton active></Skeleton>
+                )}
               </div>
             </Col>
           </Row>

@@ -10,9 +10,10 @@ import {
   PrinterOutlined,
   EditOutlined,
   InfoCircleOutlined,
+  RedoOutlined,
 } from "@ant-design/icons/lib/icons";
 import Selection from "../../Select";
-import { message, Popconfirm, Spin, Table } from "antd";
+import { message, Popconfirm, Skeleton, Spin, Table } from "antd";
 import Apptitle from "../Components/AppTitle";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -158,6 +159,7 @@ function AdminOrder() {
                   phone: item.phone,
                   address: item.address,
                   type: item.payment_Type,
+                  note: item.note,
                   total: item.total_Order,
                 },
               });
@@ -228,6 +230,12 @@ function AdminOrder() {
           <button style={{ background: "#d0d0d0" }}>
             <DeleteOutlined /> Xóa tất cả
           </button>
+          <button
+            onClick={() => getAllOrder()}
+            style={{ background: "rgb(30, 144, 255, 0.6)" }}
+          >
+            <RedoOutlined /> Làm mới
+          </button>
         </div>
         <div className={cx("table-data")}>
           <div className={cx("top")}>
@@ -246,19 +254,23 @@ function AdminOrder() {
             </div>
           </div>
           <div className={cx("middle")}>
-            <Table
-              bordered
-              pagination={{
-                position: ["bottomRight"],
-                pageSize: 5,
-                showTotal: (total) => `Số lượng ${total}`,
-              }}
-              rowSelection={{
-                type: "checkbox",
-              }}
-              columns={columns}
-              dataSource={data}
-            ></Table>
+            {orders.length > 0 ? (
+              <Table
+                bordered
+                pagination={{
+                  position: ["bottomRight"],
+                  pageSize: 5,
+                  showTotal: (total) => `Số lượng ${total}`,
+                }}
+                rowSelection={{
+                  type: "checkbox",
+                }}
+                columns={columns}
+                dataSource={data}
+              ></Table>
+            ) : (
+              <Skeleton active></Skeleton>
+            )}
           </div>
         </div>
       </div>

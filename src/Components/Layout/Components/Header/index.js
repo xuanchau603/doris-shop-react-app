@@ -302,14 +302,17 @@ function Header() {
                           </div>
                         </>
                       ) : (
-                        <img
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                          }}
-                          src={cartEmpty}
-                          alt="cart-empty"
-                        ></img>
+                        <div className={cx("empty-cart")}>
+                          <img
+                            style={{
+                              width: "60%",
+                              height: "60%",
+                            }}
+                            src={cartEmpty}
+                            alt="cart-empty"
+                          ></img>
+                          <p>Không có sản phẩm trong giỏ hàng</p>
+                        </div>
                       )}
                     </Popper>
                   </div>
@@ -409,36 +412,33 @@ function Header() {
         <div className={cx("header-main")}>
           {cate.map((item) => {
             return (
-              <div key={item.cate_Id} className={cx("popper")}>
-                <TippyHeadless
-                  // offset={[0, 10]}
-                  placement="auto-start"
-                  interactive
-                  render={(attrs) => (
-                    <div key={item.cate_Id} className={cx("category")}>
-                      <Popper>
-                        <Row gutter={[16, 16]}>
-                          {item?.products?.map((item) => {
-                            return (
-                              <Col className={cx("col")} span={8}>
-                                <div className={cx("cate-item")}>
-                                  {item.product_Name}
-                                </div>
-                              </Col>
-                            );
-                          })}
-                        </Row>
-                      </Popper>
-                    </div>
-                  )}
-                >
+              <>
+                <div key={item.cate_Id} className={cx("item_cate")}>
                   <Link key={item.cate_Id} style={{ with: "100%" }}>
                     {item.cate_Name}
                   </Link>
-                </TippyHeadless>
-              </div>
+                  <div className={cx("category")}>
+                    <Popper>
+                      <Row gutter={[16, 16]}>
+                        {item.products.map((item_product) => {
+                          return (
+                            <>
+                              <Col className={cx("col")} span={8}>
+                                <div className={cx("cate-item")}>
+                                  - {item_product.product_Name}
+                                </div>
+                              </Col>
+                            </>
+                          );
+                        })}
+                      </Row>
+                    </Popper>
+                  </div>
+                </div>
+              </>
             );
           })}
+          {/* <div className={cx("test")}>hello</div> */}
         </div>
       </div>
     </div>

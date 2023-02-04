@@ -27,6 +27,10 @@ const cartSlice = createSlice({
       message.success("Xóa sản phẩm khỏi giỏ hàng thành công!", 2);
       localStorage.setItem("cart", JSON.stringify(state.cart));
     },
+    clearCart: (state) => {
+      state.cart = [];
+      localStorage.setItem("cart", JSON.stringify(state.cart));
+    },
     addQuantity: (state, action) => {
       if (state.cart[action.payload].quantity >= 10) {
         message.error("Số lượng sản phẩm đạt tối đa!", 2);
@@ -54,6 +58,7 @@ export const {
   removeFromCart,
   addQuantity,
   minusQuantity,
+  clearCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

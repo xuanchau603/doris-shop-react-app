@@ -1,7 +1,8 @@
 import style from "./Cart.module.scss";
 import className from "classnames/bind";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Col, message, Popconfirm, Radio, Row, Select } from "antd";
+import swal from "sweetalert";
 import {
   CloseCircleOutlined,
   LeftOutlined,
@@ -12,12 +13,14 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addQuantity,
+  clearCart,
   minusQuantity,
   removeFromCart,
 } from "../../Redux/cartSlice";
 
 import { iconcartEmpty } from "../../Image";
 import axios from "axios";
+import Loading from "./../../Components/Loading/index";
 
 const cx = className.bind(style);
 
@@ -28,6 +31,7 @@ function Cart() {
   const [wards, setWards] = useState([]);
   const [optionDeliver, setOptionDeliver] = useState("1");
   const [optionPayment, setOptionPayment] = useState("recieve");
+  const [loading, setLoading] = useState(false);
 
   const getProvince = async () => {
     const res = await axios.get("https://provinces.open-api.vn/api/?depth=1");
@@ -63,8 +67,16 @@ function Cart() {
   }, 0);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleCheckOut = async () => {
+    if (optionDeliver === "2") {
+      data.city = "Thành phố Đà Nẵng";
+      data.districts = "Quận Thanh Khê";
+      data.wards = "Phường Xuân Hà";
+      data.address = "1041 Nguyễn Tất Thành";
+    }
+
     const product = cart.map((item) => {
       return {
         id: item.id,
@@ -86,6 +98,8 @@ function Cart() {
       message.error("Vui lòng chọn phường / xã!", 2);
     } else if (!data?.address) {
       message.error("Vui lòng nhập số nhà, tên đường!!", 2);
+    } else if (!data?.type) {
+      message.error("Vui lòng chọn hình thức thanh toán!!", 2);
     } else {
       const address = `${data.city} / ${data.districts} / ${data.wards} / ${data.address}`;
 
@@ -95,13 +109,25 @@ function Cart() {
         product: product,
         address: address,
       };
-
+      setLoading(true);
       const res = await axios.post(
         "http://localhost:3001/order/create",
         final_data,
       );
       if (res.status === 200) {
-        message.success("Đặt hàng thành công!", 2);
+        setLoading(false);
+        // swal({
+        //   closeOnClickOutside: false,
+        // });
+        const redirect = await swal({
+          closeOnClickOutside: false,
+          title: "Đặt hàng thành công",
+          icon: "success",
+        });
+        if (redirect) {
+          dispatch(clearCart());
+          navigate("/");
+        }
       }
     }
   };
@@ -110,12 +136,14 @@ function Cart() {
     <div className={cx("wrapper")}>
       {cart?.length > 0 ? (
         <>
+          {loading && <Loading tip={"Đang xử lý..."}></Loading>}
           <div className={cx("top-content")}>
             <Link to={"/"}>
               <LeftOutlined /> Mua thêm sản phẩm khác
             </Link>
             <span>Giỏ hàng của bạn</span>
           </div>
+
           <div className={cx("middle-cart")}>
             <ul className={cx("listing-cart")}>
               {cart.map((item, index) => {
@@ -347,9 +375,7 @@ function Cart() {
               )}
               <div className={cx("more-option")}>
                 <input
-                  onChange={(e) =>
-                    setData({ ...data, Other_requirements: e.target.value })
-                  }
+                  onChange={(e) => setData({ ...data, note: e.target.value })}
                   id="ip-more"
                   placeholder=" "
                   type="text"
@@ -369,7 +395,7 @@ function Cart() {
                     setData({ ...data, type: e.target.value });
                   }}
                 >
-                  <Radio value={0}>
+                  <Radio value={1}>
                     <span>Thanh toán khi nhận hàng</span>
                     <img
                       width={"60px"}
@@ -378,14 +404,14 @@ function Cart() {
                       alt=""
                     ></img>
                   </Radio>
-                  <Radio value={1}>
+                  <Radio value={2}>
                     <span>Thanh toán qua MoMo</span>
                     <img
                       src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png"
                       alt=""
                     ></img>
                   </Radio>
-                  <Radio value={2}>
+                  <Radio value={3}>
                     <span>Thanh toán qua VNPAY</span>
                     <img
                       width={"60px"}
@@ -394,7 +420,7 @@ function Cart() {
                       alt=""
                     ></img>
                   </Radio>
-                  <Radio value={3}>
+                  <Radio value={4}>
                     <span>Chuyển khoản quan ngân hàng</span>
                     <img
                       width={"60px"}
@@ -404,7 +430,7 @@ function Cart() {
                     ></img>
                   </Radio>
                 </Radio.Group>
-                {optionPayment === 3 && (
+                {optionPayment === 4 && (
                   <div className={cx("transfer")}>
                     <img
                       src="https://brademar.com/wp-content/uploads/2022/09/Vietcombank-Logo-PNG-3.png"

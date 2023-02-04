@@ -8,9 +8,10 @@
   right: 0;
   left: 0;
   bottom: 0;
-  background: rgb(242, 242, 242, 0.4);
+  background: rgba(237, 237, 237, 0.6);
   font-size: 6rem;
   font-weight: 700;
+  z-index: 9999999;
   > span {
     &:first-child {
       font-size: 4rem;
