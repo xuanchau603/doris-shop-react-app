@@ -2,7 +2,7 @@ import style from "./Home.module.scss";
 import classNames from "classnames/bind";
 import { banner } from "../../Image";
 import Sliders from "../../Components/Slider";
-import { Row, Col, Pagination, Skeleton, message, Spin } from "antd";
+import { Row, Col, Pagination, Skeleton, Spin } from "antd";
 import { Buffer } from "buffer";
 import {
   CaretDownOutlined,
@@ -11,41 +11,21 @@ import {
 } from "@ant-design/icons";
 import DropdownList from "../../Components/DropDownList";
 import { getAllproduct } from "../../Redux/apiRequest";
-import {
-  addQuantity,
-  addToCart,
-  initCart,
-  updateCart,
-} from "../../Redux/cartSlice";
+import { addQuantity, addToCart, initCart } from "../../Redux/cartSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 // import UploadFile from "./test";
 
 const cx = classNames.bind(style);
 
-const items = [
-  {
-    label: <Link to={"/"}>Nổi bật</Link>,
-    key: "0",
-  },
-  {
-    label: <Link to={"/"}>Giá cao đến thấp</Link>,
-    key: "1",
-  },
-  // {
-  //   type: "divider",
-  // },
-  {
-    label: <Link to={"/"}>Giá thấp đến cao</Link>,
-    key: "3",
-  },
-];
 const pageSize = 12;
 
 const trigger = ["click"];
 
 function Home() {
+  const [loading, setLoading] = useState(false);
   const [listProduct, setListProduct] = useState([]);
   const [pagination, setPagination] = useState({
     totalPage: listProduct.length / pageSize,
@@ -76,6 +56,52 @@ function Home() {
   useEffect(() => {
     getData();
   }, []);
+
+  const items = [
+    {
+      label: <Link to={"/"}>Nổi bật</Link>,
+      key: "0",
+    },
+    {
+      label: (
+        <Link
+          onClick={async () => {
+            setLoading(true);
+            const res = await axios.get(
+              "http://localhost:3001/product/?sort=desc",
+            );
+            await setListProduct(res.data);
+            setLoading(false);
+          }}
+          to={"/"}
+        >
+          Giá cao đến thấp
+        </Link>
+      ),
+      key: "1",
+    },
+    // {
+    //   type: "divider",
+    // },
+    {
+      label: (
+        <Link
+          onClick={async () => {
+            setLoading(true);
+            const res = await axios.get(
+              "http://localhost:3001/product/?sort=asc",
+            );
+            await setListProduct(res.data);
+            setLoading(false);
+          }}
+          to={"/"}
+        >
+          Giá thấp đến cao
+        </Link>
+      ),
+      key: "3",
+    },
+  ];
 
   return (
     <div className={cx("wrapper")}>
@@ -149,7 +175,7 @@ function Home() {
             ></DropdownList>
           </div>
         </h1>
-        {listProduct.length > 0 ? (
+        {!loading ? (
           <Row gutter={[16, 16]}>
             {listProduct.map((item, index) => {
               return (
@@ -161,22 +187,6 @@ function Home() {
                         navigate("/detail", {
                           state: {
                             id: item.product_ID,
-                            image: item.product_Image,
-                            quantity: item.product_Quantity,
-                            name: item.product_Name,
-                            price: item.promotion_ID
-                              ? item.product_Price -
-                                (item.promotion_ID
-                                  ? (item.product_Price *
-                                      item.promotion.discount) /
-                                    100
-                                  : 0)
-                              : item.product_Price,
-                            old: item.product_Price,
-                            discount: item.promotion_ID
-                              ? item.promotion.discount
-                              : 0,
-                            cate: item.category.cate_Name,
                           },
                         });
                       }}
@@ -187,7 +197,7 @@ function Home() {
                         {item.promotion_ID === null ? (
                           <span style={{ display: "none" }}></span>
                         ) : (
-                          <span>{item.promotion.description}</span>
+                          <span>{item.promotion?.description}</span>
                         )}
                         {item.promotion_ID ? (
                           <small>Giảm {item.promotion.discount + "%"}</small>
@@ -323,6 +333,7 @@ function Home() {
                           </button>
                         ) : (
                           <button
+                            onClick={(e) => e.stopPropagation()}
                             style={{ opacity: "0.4", cursor: "not-allowed" }}
                             title="Hết hàng"
                           >

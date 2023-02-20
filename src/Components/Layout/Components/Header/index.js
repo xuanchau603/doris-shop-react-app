@@ -20,7 +20,7 @@ import {
   DownOutlined,
 } from "@ant-design/icons";
 import { cartEmpty } from "../../../../Image";
-import { Row, Col, Avatar, Image, message, Popconfirm } from "antd";
+import { Row, Col, Avatar, Image, Popconfirm } from "antd";
 import TippyHeadless from "@tippyjs/react/headless";
 import Popper from "../../../Popper";
 import { logo } from "../../../../Image";
@@ -34,7 +34,6 @@ import {
   minusQuantity,
   removeFromCart,
 } from "../../../../Redux/cartSlice";
-import { logoutSuccess } from "../../../../Redux/authSlice";
 
 const cx = classNames.bind(style);
 
@@ -340,7 +339,6 @@ function Header() {
               alignItems: "center",
             }}
           >
-            {/* <div className={cx("border-col")}></div> */}
             {!user && (
               <Link to={"/login"} className={cx("login")}>
                 <UserAddOutlined></UserAddOutlined>
@@ -428,7 +426,16 @@ function Header() {
                           return (
                             <>
                               <Col className={cx("col")} span={8}>
-                                <div className={cx("cate-item")}>
+                                <div
+                                  onClick={() => {
+                                    navigate("/detail", {
+                                      state: {
+                                        id: item_product.product_ID,
+                                      },
+                                    });
+                                  }}
+                                  className={cx("cate-item")}
+                                >
                                   - {item_product.product_Name}
                                 </div>
                               </Col>
@@ -442,7 +449,6 @@ function Header() {
               </>
             );
           })}
-          {/* <div className={cx("test")}>hello</div> */}
         </div>
       </div>
     </div>

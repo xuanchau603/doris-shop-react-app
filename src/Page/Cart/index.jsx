@@ -116,9 +116,6 @@ function Cart() {
       );
       if (res.status === 200) {
         setLoading(false);
-        // swal({
-        //   closeOnClickOutside: false,
-        // });
         const redirect = await swal({
           closeOnClickOutside: false,
           title: "Đặt hàng thành công",

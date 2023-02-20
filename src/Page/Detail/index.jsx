@@ -11,6 +11,8 @@ import { Buffer } from "buffer";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { addQuantity, addToCart } from "../../Redux/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const cx = classNames.bind(style);
 
@@ -21,6 +23,16 @@ function Detail() {
   const cart = useSelector((state) => {
     return state.cart.cart;
   });
+  const [product, setProduct] = useState({});
+  const getProductDetail = async (id) => {
+    const res = await axios.get(`http://localhost:3001/product/?id=${id}`);
+    setProduct(res.data);
+  };
+
+  useEffect(() => {
+    getProductDetail(state.id);
+    console.log(product);
+  }, []);
 
   return (
     <div className={cx("wrapper")}>
@@ -43,9 +55,10 @@ function Detail() {
                   <div className={cx("main-image")}>
                     <img
                       alt=""
-                      src={Buffer.from(state.image || "", "base64").toString(
-                        "ascii",
-                      )}
+                      src={Buffer.from(
+                        product.product_Image || "",
+                        "base64",
+                      ).toString("ascii")}
                     ></img>
                   </div>
                   <div className={cx("sub-images")}>List sub Image </div>
@@ -53,7 +66,7 @@ function Detail() {
                 <Col span={12}>
                   <div className={cx("detail")}>
                     <div className={cx("product-info")}>
-                      <div className={cx("name")}>{state.name}</div>
+                      <div className={cx("name")}>{product.product_Name}</div>
                       <div className={cx("vote")}>
                         <StarOutlined />
                         <StarOutlined />
@@ -63,27 +76,43 @@ function Detail() {
                         <p>4 sao - 1 lượt đánh giá</p>
                       </div>
                       <div className={cx("price")}>
-                        {new Intl.NumberFormat("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                        }).format(state.price)}
+                        {product.promotion
+                          ? new Intl.NumberFormat("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            }).format(
+                              product.product_Price -
+                                (product.product_Price *
+                                  product.promotion?.discount) /
+                                  100,
+                            )
+                          : new Intl.NumberFormat("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            }).format(product.product_Price)}
                       </div>
-                      {state.discount !== 0 && (
+                      {product.promotion && (
                         <div className={cx("old-price")}>
                           Giá gốc:{" "}
                           {new Intl.NumberFormat("vi-VN", {
                             style: "currency",
                             currency: "VND",
-                          }).format(state.old)}{" "}
+                          }).format(product.product_Price)}{" "}
                           - Tiết kiệm:{" "}
                           {new Intl.NumberFormat("vi-VN", {
                             style: "currency",
                             currency: "VND",
-                          }).format((state.old * state.discount) / 100)}{" "}
-                          ({state.discount}%)
+                          }).format(
+                            (product.product_Price *
+                              product.promotion?.discount) /
+                              100,
+                          )}{" "}
+                          ({product.promotion?.discount}%)
                         </div>
                       )}
-                      <div className={cx("cate")}>Danh mục: {state.cate}</div>
+                      <div className={cx("cate")}>
+                        Danh mục: {product.category?.cate_Name}
+                      </div>
                     </div>
                     <ul className={cx("product-uses")}>
                       <li>Cấp nước vượt trội, giúp da luôn mềm mịn.</li>
@@ -100,13 +129,13 @@ function Detail() {
                       </li>
                     </ul>
                     <div className={cx("actions")}>
-                      {state.quantity > 0 ? (
+                      {product.product_Quantity > 0 ? (
                         <>
                           <button
                             onClick={async () => {
                               const base64 = await fetch(
                                 Buffer.from(
-                                  state.image || "",
+                                  product.product_Image || "",
                                   "base64",
                                 ).toString("ascii"),
                               );
@@ -122,16 +151,18 @@ function Detail() {
                               if (index === -1) {
                                 dispatch(
                                   addToCart({
-                                    id: state.id,
-                                    productName: state.name,
+                                    id: product.product_ID,
+                                    productName: product.product_Name,
                                     productImage: linkImage,
                                     quantity: 1,
-                                    productPrice: state.discount
-                                      ? state.old -
-                                        (state.old * state.discount) / 100
-                                      : state.old,
-                                    productOldPrice: state.old
-                                      ? state.product_Price
+                                    productPrice: product.promotion
+                                      ? product.product_Price -
+                                        (product.product_Price *
+                                          product.promotion?.discount) /
+                                          100
+                                      : product.product_Price,
+                                    productOldPrice: product.product_Price
+                                      ? product.product_Price
                                       : "",
                                   }),
                                 );
@@ -146,7 +177,7 @@ function Detail() {
                             onClick={async () => {
                               const base64 = await fetch(
                                 Buffer.from(
-                                  state.image || "",
+                                  product.product_Image || "",
                                   "base64",
                                 ).toString("ascii"),
                               );
@@ -162,16 +193,18 @@ function Detail() {
                               if (index === -1) {
                                 dispatch(
                                   addToCart({
-                                    id: state.id,
-                                    productName: state.name,
+                                    id: product.product_ID,
+                                    productName: product.product_Name,
                                     productImage: linkImage,
                                     quantity: 1,
-                                    productPrice: state.discount
-                                      ? state.old -
-                                        (state.old * state.discount) / 100
-                                      : state.old,
-                                    productOldPrice: state.old
-                                      ? state.product_Price
+                                    productPrice: product.promotion
+                                      ? product.product_Price -
+                                        (product.product_Price *
+                                          product.promotion?.discount) /
+                                          100
+                                      : product.product_Price,
+                                    productOldPrice: product.product_Price
+                                      ? product.product_Price
                                       : "",
                                   }),
                                 );
