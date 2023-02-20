@@ -8,23 +8,10 @@ import {
   WarningOutlined,
   CarryOutOutlined,
 } from "@ant-design/icons";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const cx = classNames.bind(style);
 
 function AdminHome() {
-  const navigate = useNavigate();
-  const user = useSelector((state) => {
-    return state.auth.login.currentUser;
-  });
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-  }, []);
-
   return (
     <>
       <Apptitle title={"Bảng điều khiển"}></Apptitle>
@@ -108,14 +95,14 @@ function AdminHome() {
           </Col>
         </Row>
       </div>
-      <div class='tile'>
-        <h3 class='tile-title'>Dữ liệu 6 tháng đầu vào</h3>
-        <div class='embed-responsive embed-responsive-16by9'>
+      <div class="tile">
+        <h3 class="tile-title">Dữ liệu 6 tháng đầu vào</h3>
+        <div class="embed-responsive embed-responsive-16by9">
           <canvas
-            class='embed-responsive-item'
-            id='lineChartDemo'
-            width='752'
-            height='423'
+            class="embed-responsive-item"
+            id="lineChartDemo"
+            width="752"
+            height="423"
           ></canvas>
         </div>
       </div>

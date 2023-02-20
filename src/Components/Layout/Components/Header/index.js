@@ -17,6 +17,7 @@ import {
   DeleteOutlined,
   PlusCircleOutlined,
   MinusCircleOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
 import { cartEmpty } from "../../../../Image";
 import { Row, Col, Avatar, Image, message, Popconfirm } from "antd";
@@ -33,6 +34,7 @@ import {
   minusQuantity,
   removeFromCart,
 } from "../../../../Redux/cartSlice";
+import { logoutSuccess } from "../../../../Redux/authSlice";
 
 const cx = classNames.bind(style);
 
@@ -55,11 +57,7 @@ function Header() {
     return acc + currentValue.productPrice * currentValue.quantity;
   }, 0);
 
-  localStorage.setItem("user", JSON.stringify(user));
-
-  const image = Buffer.from(user?.data?.avatar || "", "base64").toString(
-    "ascii",
-  );
+  const image = Buffer.from(user?.avatar || "", "base64").toString("ascii");
 
   const handleScroll = () => {
     if (window.scrollY > 50) {
@@ -357,7 +355,7 @@ function Header() {
                       <li className={cx("menu-item")}>
                         <SettingOutlined /> Cài đặt tài khoản
                       </li>
-                      {user?.data?.Role?.role_Name === "ADMIN" && (
+                      {user?.Role?.role_Name === "ADMIN" && (
                         <Link to={"/admin"} className={cx("menu-item")}>
                           <LockOutlined /> Quản lý hệ thống
                         </Link>
@@ -415,8 +413,14 @@ function Header() {
               <>
                 <div key={item.cate_Id} className={cx("item_cate")}>
                   <Link key={item.cate_Id} style={{ with: "100%" }}>
-                    {item.cate_Name}
+                    {item.cate_Name} <br></br>
+                    {item.products.length > 0 ? (
+                      <DownOutlined />
+                    ) : (
+                      <DownOutlined style={{ visibility: "hidden" }} />
+                    )}
                   </Link>
+
                   <div className={cx("category")}>
                     <Popper>
                       <Row gutter={[16, 16]}>

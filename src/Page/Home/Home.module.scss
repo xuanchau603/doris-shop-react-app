@@ -73,6 +73,7 @@
     }
 
     .product-tag {
+      display: block;
       height: 42rem;
       background: #fff;
       border-radius: 6px;
@@ -151,6 +152,7 @@
       }
 
       .name {
+        padding-top: 1rem;
         font-size: 1.8rem;
         font-weight: 600;
         display: -webkit-box;
@@ -206,17 +208,19 @@
           padding: 1rem;
           cursor: pointer;
           right: 0;
+          animation: fadeIn ease-out 0.4s;
         }
       }
 
       &:hover {
         box-shadow: 0 0 12px 2px #ccc;
       }
+
       &:hover .vote > button {
         display: block;
       }
       &:hover > img {
-        transform: translateY(-8px);
+        transform: scale(1.1);
       }
     }
     .pagination {
@@ -224,5 +228,22 @@
       width: fit-content;
       margin: auto;
     }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes fadeOut {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
   }
 }

@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { delete_cookie, setCookie } from "./cookie";
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     login: {
-      currentUser: null,
+      currentUser: JSON.parse(localStorage?.getItem("user")),
       isFectching: false,
       error: false,
     },
@@ -16,6 +17,8 @@ const authSlice = createSlice({
     loginSuccess: (state, action) => {
       state.login.isFectching = false;
       state.login.currentUser = action.payload;
+      localStorage.setItem("user", JSON.stringify(action.payload));
+      setCookie("token", action.payload, 3);
       state.login.error = false;
     },
     loginFailed: (state) => {
@@ -24,6 +27,8 @@ const authSlice = createSlice({
     },
     logoutSuccess: (state) => {
       state.login.currentUser = null;
+      localStorage.removeItem("user");
+      delete_cookie("token");
     },
   },
 });

@@ -17,7 +17,7 @@ import {
   initCart,
   updateCart,
 } from "../../Redux/cartSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import UploadFile from "./test";
@@ -58,6 +58,7 @@ function Home() {
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChangePagin = (page) => {
     setPagination({
@@ -156,6 +157,29 @@ function Home() {
                 index < pagination.maxIndex && (
                   <Col key={item.product_ID} span={6}>
                     <div
+                      onClick={() => {
+                        navigate("/detail", {
+                          state: {
+                            id: item.product_ID,
+                            image: item.product_Image,
+                            quantity: item.product_Quantity,
+                            name: item.product_Name,
+                            price: item.promotion_ID
+                              ? item.product_Price -
+                                (item.promotion_ID
+                                  ? (item.product_Price *
+                                      item.promotion.discount) /
+                                    100
+                                  : 0)
+                              : item.product_Price,
+                            old: item.product_Price,
+                            discount: item.promotion_ID
+                              ? item.promotion.discount
+                              : 0,
+                            cate: item.category.cate_Name,
+                          },
+                        });
+                      }}
                       title={item.product_Name}
                       className={cx("product-tag")}
                     >
@@ -228,7 +252,8 @@ function Home() {
                         </div>
                         {item.product_Quantity > 0 ? (
                           <button
-                            onClick={async () => {
+                            onClick={async (e) => {
+                              e.stopPropagation();
                               const base64 = await fetch(
                                 Buffer.from(
                                   item.product_Image || "",

@@ -19,8 +19,8 @@ function CreateProduct() {
   const refDes = useRef();
 
   const handleCreate = async () => {
-    if (!name || !image)
-      return alert("Vui lòng nhập đầy đủ thông tin yêu cầu!");
+    // if (!name || !image)
+    //   return alert("Vui lòng nhập đầy đủ thông tin yêu cầu!");
     const data = {
       name,
       image,
@@ -29,16 +29,22 @@ function CreateProduct() {
     try {
       const res = await axios.post(
         "http://localhost:3001/category/create",
-        data
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
       );
-      if (res) {
-        alert("Thêm mới danh mục thành công!");
-        setName("");
-        setImage("");
-        setDescripton("");
-        refImage.current.value = "";
-        refName.current.focus();
-      }
+      console.log(res);
+      // if (res) {
+      //   alert("Thêm mới danh mục thành công!");
+      //   setName("");
+      //   setImage("");
+      //   setDescripton("");
+      //   refImage.current.value = "";
+      //   refName.current.focus();
+      // }
     } catch (error) {
       alert(error?.response?.data);
     }
@@ -46,32 +52,32 @@ function CreateProduct() {
 
   return (
     <>
-      <Apptitle title='Thêm danh mục'></Apptitle>
+      <Apptitle title="Thêm danh mục"></Apptitle>
       <Form title={"Tạo mới danh mục"}>
         <Row className={cx("form")} gutter={[30, 20]}>
           <Col span={6}>
             <div className={cx("form-group")}>
-              <label htmlFor=''>
+              <label htmlFor="">
                 Tên danh mục <b>*</b>
               </label>
               <input
                 ref={refName}
-                type='text'
+                type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder='Nhập tên danh mục...'
+                placeholder="Nhập tên danh mục..."
               ></input>
             </div>
           </Col>
-
           <Col span={6}>
             <div className={cx("form-group")}>
-              <label htmlFor=''>
+              <label htmlFor="">
                 Ảnh danh mục <b>*</b>
               </label>
               <input
+                name="file"
                 ref={refImage}
-                type='file'
+                type="file"
                 onChange={(e) => {
                   const reader = new FileReader();
                   if (e.target.files.length === 0) {
@@ -88,36 +94,40 @@ function CreateProduct() {
               ></input>
               <img
                 className={cx("preview")}
-                width='100%'
-                alt=''
+                width="100%"
+                alt=""
                 src={image}
               ></img>
             </div>
           </Col>
           <Col span={6}>
             <div className={cx("form-group")}>
-              <label htmlFor=''>Ghi chú danh mục </label>
+              <label htmlFor="">Ghi chú danh mục </label>
               <textarea
                 ref={refDes}
                 value={description}
                 onChange={(e) => setDescripton(e.target.value)}
-                placeholder='Ghi chú danh mục(không bắt buộc)...'
+                placeholder="Ghi chú danh mục(không bắt buộc)..."
               ></textarea>
             </div>
           </Col>
         </Row>
-        <div className={cx("actions")}>
-          <button type='submit' onClick={handleCreate}>
-            Lưu lại
-          </button>
-          <button
-            onClick={() => {
-              navigte("/admin/category");
-            }}
-          >
-            Hủy bỏ
-          </button>
-        </div>
+        <Row>
+          <Col span={24}>
+            <div className={cx("actions")}>
+              <button type="submit" onClick={handleCreate}>
+                Lưu lại
+              </button>
+              <button
+                onClick={() => {
+                  navigte("/admin/category");
+                }}
+              >
+                Hủy bỏ
+              </button>
+            </div>
+          </Col>
+        </Row>
       </Form>
     </>
   );
