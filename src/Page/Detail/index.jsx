@@ -31,8 +31,7 @@ function Detail() {
 
   useEffect(() => {
     getProductDetail(state.id);
-    console.log(product);
-  }, []);
+  }, [state.id]);
 
   return (
     <div className={cx("wrapper")}>

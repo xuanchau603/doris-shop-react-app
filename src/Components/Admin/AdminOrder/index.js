@@ -13,7 +13,6 @@ import {
   RedoOutlined,
   WarningOutlined,
   CheckSquareOutlined,
-  CloseSquareOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons/lib/icons";
 import Selection from "../../Select";
@@ -22,6 +21,7 @@ import Apptitle from "../Components/AppTitle";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Format from "../../../Format";
 
 const cx = classNames.bind(style);
 
@@ -107,49 +107,6 @@ function AdminOrder() {
   };
 
   const data = orders.map((item) => {
-    let statusTag;
-    if (item.status === 0) {
-      statusTag = (
-        <Tooltip title="Chờ xác nhận">
-          <span
-            style={{
-              color: "#918501",
-              fontSize: "3rem",
-            }}
-          >
-            <WarningOutlined />
-          </span>
-        </Tooltip>
-      );
-    } else if (item.status === 1) {
-      statusTag = (
-        <Tooltip title="Đã xác nhận">
-          <span
-            style={{
-              color: "#46c414",
-              fontSize: "3rem",
-            }}
-          >
-            <CheckSquareOutlined />
-          </span>
-        </Tooltip>
-      );
-    } else {
-      statusTag = (
-        <Tooltip title="Đã hủy">
-          <span
-            style={{
-              color: "#991811",
-              fontSize: "3rem",
-            }}
-          >
-            <CloseCircleOutlined />
-          </span>
-        </Tooltip>
-      );
-    }
-    const date = new Date(item.createdAt);
-
     return {
       key: item.id,
       id: item.id,
@@ -157,8 +114,8 @@ function AdminOrder() {
       phone: item.phone,
       address: item.address,
       note: item.note,
-      orderDate: `${date.toDateString()} ${date.toLocaleTimeString()}`,
-      status: statusTag,
+      orderDate: Format.formatDate(item.createdAt),
+      status: Format.formatStatusOrder(item.status),
       action: (
         <span className={cx("action-table")}>
           <InfoCircleOutlined
@@ -255,11 +212,7 @@ function AdminOrder() {
           <div className={cx("top")}>
             <div className={cx("top-left")}>
               Hiện{"  "}
-              <Selection
-                options={optionsSelect}
-                onChange={(value) => {}}
-              ></Selection>{" "}
-              danh mục
+              <Selection options={optionsSelect}></Selection> danh mục
             </div>
             <div className={cx("top-right")}>
               <span>Tìm kiếm:</span>

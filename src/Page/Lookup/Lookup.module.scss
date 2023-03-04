@@ -1,0 +1,208 @@
+.wrapper {
+  padding-top: 3rem;
+  width: 1200px;
+  margin: auto;
+  .sidebar {
+    height: 300px;
+    .sidebar-item {
+      display: block;
+      padding: 1.2rem 1rem;
+      font-size: 1.6rem;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--primary-color);
+      background: #e3fde4;
+      border-end-end-radius: 2rem;
+      border-start-end-radius: 2rem;
+      > span {
+        font-size: 2rem;
+        color: black;
+      }
+    }
+  }
+  .main {
+    .main-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      > span {
+        &:last-child {
+          color: rgb(43, 153, 255);
+        }
+      }
+    }
+    .main-content {
+      border: 1px solid #ccc;
+      padding: 2rem 1rem 2rem 2rem;
+      > h3 {
+        margin: 0;
+        font-size: 2.4rem;
+        margin-bottom: 2rem;
+      }
+      .main-content-top {
+        margin: 2rem 0;
+        color: #5e5e5e;
+      }
+      .main-content-data {
+        padding: 1.4rem 0;
+        border-top: 1px solid #d1d1d1;
+        .id {
+          color: rgb(43, 153, 255);
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+          cursor: pointer;
+        }
+        .name {
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+        }
+        .detail {
+          font-size: 1.6rem;
+          color: rgb(43, 153, 255);
+          padding-top: 1rem;
+          cursor: pointer;
+        }
+        .price {
+          color: rgb(201, 0, 0);
+        }
+        .date {
+          color: #5e5e5e;
+        }
+        .detail-status {
+          background: #dddddd;
+          padding: 1rem 2rem;
+          text-align: right;
+          margin-bottom: 1rem;
+        }
+        .detail {
+          display: flex;
+          justify-content: space-between;
+
+          .detail-img {
+            width: 14%;
+            height: 12rem;
+          }
+          .detail-content {
+            flex: 1;
+            padding: 0 1rem;
+            > span {
+              color: #000;
+            }
+            .name {
+              margin-bottom: 1rem;
+              font-size: 1.5rem;
+            }
+          }
+          .detail-price {
+            color: red;
+          }
+        }
+      }
+      .total {
+        padding: 2rem;
+        text-align: right;
+        > div {
+          padding: 0.4rem;
+          > span {
+            padding-left: 3rem;
+          }
+        }
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        .total-ac {
+          span {
+            color: red;
+            font-weight: 600;
+            font-size: 2rem;
+          }
+        }
+      }
+      .info {
+        padding: 2rem;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        > h3 {
+          margin: 0;
+          padding-bottom: 1.6rem;
+        }
+        > li {
+          padding: 0.6rem 0;
+        }
+      }
+      .btn-back {
+        padding: 2rem;
+        display: flex;
+        justify-content: center;
+        > a {
+          display: block;
+          width: 60%;
+          padding: 2rem;
+          background: var(--button-background);
+          font-size: 2rem;
+          font-weight: 600;
+          border-radius: 8px;
+          color: #000;
+          text-align: center;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 60rem;
+    border: 1px solid #ccc;
+    width: 50rem;
+    margin: auto;
+    > img {
+      padding-top: 2rem;
+      width: 100%;
+      height: 50%;
+    }
+    > span {
+      font-size: 2.8rem;
+      font-weight: 400;
+      padding: 2rem;
+    }
+    .action {
+      width: 30rem;
+      position: relative;
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      > input {
+        width: 100%;
+        padding: 1.4rem 4rem;
+        padding-left: 5rem;
+        border-radius: 3rem;
+        font-size: 1.6rem;
+        border: 1px solid #ccc;
+      }
+      > span {
+        position: absolute;
+        left: 20px;
+        top: 48%;
+        transform: translateY(-50%);
+        font-size: 2.6rem;
+      }
+    }
+    > button {
+      margin-top: 2rem;
+      background: var(--button-background);
+      width: 30rem;
+      font-size: 2rem;
+      padding: 1.4rem 4rem;
+      border-radius: 3rem;
+      cursor: pointer;
+    }
+  }
+}

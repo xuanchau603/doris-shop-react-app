@@ -16,7 +16,11 @@ import EditProduct from "../Components/Admin/AdminProduct/EditProduct";
 import Cart from "../Page/Cart";
 import OrderDetail from "../Components/Admin/AdminOrder/OrderDetail";
 import EditOrder from "../Components/Admin/AdminOrder/EditOrder";
-import { useSelector } from "react-redux";
+import Lookup from "../Page/Lookup";
+import LoopkupDetail from "../Page/Lookup/LoopkupDetail";
+import AdminUser from "../Components/Admin/AdminUser";
+import EditUser from "../Components/Admin/AdminUser/EditUser";
+import CreateUser from "../Components/Admin/AdminUser/CreateUser";
 
 //public route
 const publicRoutes = [
@@ -41,6 +45,14 @@ const publicRoutes = [
   {
     path: "/cart",
     component: Cart,
+  },
+  {
+    path: "lookup",
+    component: Lookup,
+  },
+  {
+    path: "lookup/detail",
+    component: LoopkupDetail,
   },
 ];
 
@@ -98,6 +110,21 @@ const privateRoutes = [
   {
     path: "/admin/category/edit",
     component: EditCategory,
+    layout: AdminLayout,
+  },
+  {
+    path: "/admin/user",
+    component: AdminUser,
+    layout: AdminLayout,
+  },
+  {
+    path: "/admin/user/edit",
+    component: EditUser,
+    layout: AdminLayout,
+  },
+  {
+    path: "/admin/user/add",
+    component: CreateUser,
     layout: AdminLayout,
   },
 ];

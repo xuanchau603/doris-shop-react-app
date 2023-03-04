@@ -8,6 +8,7 @@ import axios from "axios";
 import { Buffer } from "buffer";
 import { useState } from "react";
 import { StepBackwardOutlined } from "@ant-design/icons";
+import Format from "../../../Format";
 const cx = classNames.bind(style);
 
 function OrderDetail() {
@@ -18,7 +19,6 @@ function OrderDetail() {
     const res = await axios.get(`http://localhost:3001/order/?order_Id=${id}`);
     if (res) {
       setOrderDetail(res.data);
-      console.log(res.data);
     }
   };
   useEffect(() => {
@@ -27,9 +27,6 @@ function OrderDetail() {
     }
   }, []);
 
-  const date = new Date(state.order_Date);
-  console.log(date);
-  const date_up = new Date(state.order_Date_up);
   const columns = [
     {
       title: "Mã sản phẩm",
@@ -111,11 +108,11 @@ function OrderDetail() {
                 </div>
                 <p className={cx("detail-day")}>
                   <b>Ngày tạo đơn hàng:</b>{" "}
-                  <span>{`${date.toDateString()} ${date.toLocaleTimeString()}`}</span>
+                  <span>{Format.formatDate(state.order_Date)}</span>
                 </p>
                 <p className={cx("detail-day")}>
                   <b>Chỉnh sửa lần cuối:</b>{" "}
-                  <span>{`${date_up.toDateString()} ${date_up.toLocaleTimeString()}`}</span>
+                  <span>{Format.formatDate(state.order_Date_up)}</span>
                 </p>
                 <p className={cx("payment-type")}>
                   <b>Hình thức thanh toán:</b> <span>{type}</span>

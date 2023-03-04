@@ -12,7 +12,7 @@ const loginUser = async (user, dispatch, navigate) => {
   try {
     const res = await axios.post("http://localhost:3001/user/login", user);
     if (res.status === 200) {
-      dispatch(loginSuccess(res.data.data));
+      dispatch(loginSuccess(res.data));
       navigate("/");
     }
   } catch (error) {

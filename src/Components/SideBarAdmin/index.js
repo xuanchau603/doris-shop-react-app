@@ -42,7 +42,7 @@ function SideBarAdmin() {
     {
       title: "Tài khoản",
       icon: <UserOutlined />,
-      path: "/admin",
+      path: "/admin/user",
     },
     {
       title: "Doanh số",

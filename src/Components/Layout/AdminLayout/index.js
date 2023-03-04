@@ -5,17 +5,31 @@ import { PoweroffOutlined, CaretDownOutlined } from "@ant-design/icons";
 import { logo } from "../../../Image/index";
 import DropDownList from "../../DropDownList";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutSuccess } from "../../../Redux/authSlice";
 
 const cx = classNames.bind(style);
 
 function AdminLayout({ children }) {
+  const user = useSelector((state) => {
+    return state.auth.login.currentUser;
+  });
+  const dispatch = useDispatch();
+
   const itemsDropdown = [
     {
       label: (
-        <Link to='/' style={{ fontSize: 20 }}>
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
+        <a
+          onClick={() => {
+            dispatch(logoutSuccess());
+            navigate("/");
+          }}
+          style={{ fontSize: 20 }}
+        >
           <PoweroffOutlined style={{ marginRight: 6 }}></PoweroffOutlined> Đăng
           xuất
-        </Link>
+        </a>
       ),
       key: "0",
       danger: true,
@@ -33,17 +47,21 @@ function AdminLayout({ children }) {
           }}
           className={cx("logo")}
         >
-          <img alt='logo' src={logo}></img>
+          <img alt="logo" src={logo}></img>
         </div>
         <div className={cx("user")}>
           <DropDownList
             items={itemsDropdown}
             trigger={"hover"}
             label={
-              <Link to='/' style={{ color: "black" }}>
-                Xin chào, <b style={{ color: "green" }}>Lê Xuân Châu</b>{" "}
+              // eslint-disable-next-line jsx-a11y/anchor-is-valid
+              <a style={{ color: "black" }}>
+                Xin chào,{" "}
+                <b style={{ color: "green" }}>
+                  {user.full_Name ? user.full_Name : user.email}
+                </b>{" "}
                 <CaretDownOutlined />
-              </Link>
+              </a>
             }
           ></DropDownList>
         </div>

@@ -21,6 +21,7 @@ import {
 import { iconcartEmpty } from "../../Image";
 import axios from "axios";
 import Loading from "./../../Components/Loading/index";
+import queryString from "query-string";
 
 const cx = className.bind(style);
 
@@ -109,23 +110,55 @@ function Cart() {
         product: product,
         address: address,
       };
-      setLoading(true);
-      const res = await axios.post(
-        "http://localhost:3001/order/create",
-        final_data,
-      );
-      if (res.status === 200) {
-        setLoading(false);
-        const redirect = await swal({
-          closeOnClickOutside: false,
-          title: "Đặt hàng thành công",
-          icon: "success",
-        });
-        if (redirect) {
-          dispatch(clearCart());
-          navigate("/");
-        }
-      }
+      const vnp_TxnRef = new Date().getTime().toString();
+      const vnp_Amount = 10000;
+      const vnp_Command = "pay";
+      const vnp_CreateDate = new Date().toISOString();
+      const vnp_IpAddr = "127.0.0.1";
+      const vnp_Locale = "vn";
+      const vnp_OrderInfo = "Thanh toán đơn hàng LXC";
+      const vnp_ReturnUrl = "http://localhost:3000/success";
+      const vnp_TmnCode = "YOUR_VNPAY_TMN_CODE";
+      const vnp_TransactionNo = "";
+      const vnp_Version = "2.0.0";
+
+      const params = {
+        vnp_TxnRef,
+        vnp_Amount,
+        vnp_Command,
+        vnp_CreateDate,
+        vnp_IpAddr,
+        vnp_Locale,
+        vnp_OrderInfo,
+        vnp_ReturnUrl,
+        vnp_TmnCode,
+        vnp_TransactionNo,
+        vnp_Version,
+      };
+      const p = queryString.stringify(params);
+      console.log(p);
+      // const vnpay = new vnpay(params);
+
+      // const vnpayUrl = vnpay.getUrl();
+      // window.location.href = `https://sandbox.vnpayment.vn/paymentv2/?${p}`;
+
+      // setLoading(true);
+      // const res = await axios.post(
+      //   "http://localhost:3001/order/create",
+      //   final_data,
+      // );
+      // if (res.status === 200) {
+      //   setLoading(false);
+      //   const redirect = await swal({
+      //     closeOnClickOutside: false,
+      //     title: "Đặt hàng thành công",
+      //     icon: "success",
+      //   });
+      //   if (redirect) {
+      //     dispatch(clearCart());
+      //     navigate("/");
+      //   }
+      // }
     }
   };
 
@@ -163,7 +196,13 @@ function Cart() {
                       </Popconfirm>
                     </div>
                     <div className={cx("item-cart-center")}>
-                      <span className={cx("name")}>{item.productName}</span>
+                      <Link
+                        to={"/detail"}
+                        state={{ id: item.id }}
+                        className={cx("name")}
+                      >
+                        {item.productName}
+                      </Link>
                       <span className={cx("description")}>
                         Tinh Dầu Dưỡng Tóc L'Oreal Paris Elseve Extraordinary
                         Oil Serum123123213213
@@ -212,7 +251,7 @@ function Cart() {
                 );
               })}
               <div className={cx("total-es")}>
-                <span>Tạm tính (2 sản phẩm):</span>
+                <span>Tạm tính ({cart.length} sản phẩm):</span>
                 <span className={cx("total-price")}>
                   {new Intl.NumberFormat("vi-VN", {
                     style: "currency",

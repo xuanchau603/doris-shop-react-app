@@ -219,9 +219,13 @@ function Header() {
               </div>
             </TippyHeadless>
           </div>
-          <div title="Tra cứu đơn hàng" className={cx("lookup")}>
+          <Link
+            to={"/lookup"}
+            title="Tra cứu đơn hàng"
+            className={cx("lookup")}
+          >
             Tra cứu đơn hàng
-          </div>
+          </Link>
           <div>
             <TippyHeadless
               // visible
@@ -316,19 +320,13 @@ function Header() {
                 );
               }}
             >
-              <div
-                title="Giỏ hàng"
-                onClick={() => {
-                  navigate("/cart");
-                }}
-                className={cx("cart")}
-              >
+              <Link title="Giỏ hàng" to={"/cart"} className={cx("cart")}>
                 <ShoppingCartOutlined
                   count={cart?.length > 0 ? cart.length : 0}
                   className={cx("icon-cart")}
                 ></ShoppingCartOutlined>
                 Giỏ hàng
-              </div>
+              </Link>
             </TippyHeadless>
           </div>
           <div
@@ -388,18 +386,7 @@ function Header() {
                   onClick={() => setUserMenu(!userMenu)}
                   className={cx("user")}
                 >
-                  <Avatar
-                    size={44}
-                    src={
-                      <Image
-                        preview={false}
-                        src={image}
-                        style={{
-                          width: 44,
-                        }}
-                      />
-                    }
-                  />
+                  <img src={image} alt=""></img>
                 </div>
               </TippyHeadless>
             )}

@@ -16,9 +16,9 @@ const authSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       state.login.isFectching = false;
-      state.login.currentUser = action.payload;
-      localStorage.setItem("user", JSON.stringify(action.payload));
-      setCookie("token", action.payload, 3);
+      state.login.currentUser = action.payload.data;
+      localStorage.setItem("user", JSON.stringify(action.payload.data));
+      setCookie("token", JSON.stringify(action.payload.accesstoken), 3);
       state.login.error = false;
     },
     loginFailed: (state) => {
